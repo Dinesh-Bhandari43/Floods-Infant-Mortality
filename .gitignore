@@ -1,6 +1,9 @@
 # Data folder
 data
 
+# Test and try code folder
+test-and-try
+
 # History files
 .Rhistory
 .Rapp.history
