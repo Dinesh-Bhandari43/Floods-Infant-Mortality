@@ -1,17 +1,19 @@
 #-------------------------------------------------------------------------------
+
 # @Organization - UCSF
 # @Project - Effects of floods on child mortality in Bangladesh
 # @Author - Francois Rerolle, rerollefrancois@gmail.com
 # @Description - This file formats the birth record history out of the DHS data
 #                and characterize flood exposure
+
 #-------------------------------------------------------------------------------
 
 # Source configuration code
 library(here)
 source(here("child-mortality-dhs/R", "0-config.R"))
 
-
 #-------------------------------------------------------------------------------
+
 ## Load data
 # DHS birth records
 BDBR_2017 <- read_dta(here("data/untouched/dhs",
@@ -60,11 +62,9 @@ BG_Adm <- getData("GADM",
                   country = "BGD",
                   level = 1,
                   path = here("data/untouched/country-admin"))
-#-------------------------------------------------------------------------------
-
-
 
 #-------------------------------------------------------------------------------
+
 ## Process data
 # Collate birth record across DHS datasets
 BDBR <- rbind(BDBR_2017 %>%
@@ -95,42 +95,42 @@ BDBR_GPS <- rbind(BDBR_2017_GPS,
 # flood_jul_2004_cropped <- crop(flood_jul_2004, 1.2 * extent(BG_Adm))
 flood_jul_2007_cropped <- crop(flood_jul_2007, 1.2 * extent(BG_Adm))
 
-# Extract
-BDBR_GPS$Flooded <- raster::extract(x = flood_jul_2007_cropped[[1]],
-                                    y = BDBR_GPS)
+# Extract flood exposure at DHS clusters
+BDBR_GPS$Flooded <- as.factor(raster::extract(x = flood_jul_2007_cropped[[1]],
+                                              y = BDBR_GPS))
 
 # Merge
 BDBR_Flood <- (BDBR %>% left_join(BDBR_GPS))
-#-------------------------------------------------------------------------------
-
-
 
 #-------------------------------------------------------------------------------
+
 # Finalize dataset
-birth_records <- (BDBR_Flood %>%
-                    mutate(Age_At_Death_Months = b7,
-                           Birth_Date_Month_CMC = b3,
-                           Region = toupper(ADM1NAME),
-                           Region = ifelse(test = Region == "MYMENSINGH",
-                                           yes = "DHAKA",
-                                           no = Region),
-                           LATNUM = replace(LATNUM, LATNUM == 0, NA),
-                           LONGNUM = replace(LONGNUM, LONGNUM == 0, NA)) %>%
-                    dplyr::select(Birth_Date_Month_CMC,
-                                  Age_At_Death_Months,
-                                  Region,
-                                  DHSCLUST,
-                                  DHSYEAR,
-                                  URBAN_RURA,
-                                  LATNUM,
-                                  LONGNUM,
-                                  Flooded))
+birth_records_formated <- 
+  (BDBR_Flood %>%
+     mutate(Age_At_Death_Months = b7,
+            Birth_Date_Month_CMC = b3,
+            Region = toupper(ADM1NAME),
+            Region = ifelse(test = Region == "MYMENSINGH",
+                            yes = "DHAKA",
+                            no = Region),
+            LATNUM = replace(LATNUM, LATNUM == 0, NA),
+            LONGNUM = replace(LONGNUM, LONGNUM == 0, NA)) %>%
+     dplyr::select(Birth_Date_Month_CMC,
+                   Age_At_Death_Months,
+                   Region,
+                   DHSCLUST,
+                   DHSYEAR,
+                   URBAN_RURA,
+                   LATNUM,
+                   LONGNUM,
+                   Flooded))
 
 #-------------------------------------------------------------------------------
 
-
-#-------------------------------------------------------------------------------
 # Save dataset
-saveRDS(birth_records, file = here("data/final", "birth_records"))
-readr::write_csv(birth_records, file = here("data/final", "birth_records.csv"))
+saveRDS(birth_records_formated,
+        file = here("data/temp", "birth_records_formated"))
+readr::write_csv(birth_records_formated,
+                 file = here("data/temp", "birth_records_formated.csv"))
+
 #-------------------------------------------------------------------------------
