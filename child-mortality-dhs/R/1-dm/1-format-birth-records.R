@@ -31,6 +31,9 @@ BDBR_2007 <- read_dta(here("data/untouched/dhs",
 BDBR_2004 <- read_dta(here("data/untouched/dhs",
                            "BD_2004_DHS_02032022_1033_172978/BDBR4JDT",
                            "BDBR4JFL.DTA"))
+BDBR_1999 <- read_dta(here("data/untouched/dhs",
+                           "BD_1999-00_DHS_03072022_1129_172978/BDBR41DT",
+                           "BDBR41FL.DTA"))
 
 # Cluster's GPS
 BDBR_2017_GPS <- st_read(here("data/untouched/dhs",
@@ -48,6 +51,9 @@ BDBR_2007_GPS <- st_read(here("data/untouched/dhs",
 BDBR_2004_GPS <- st_read(here("data/untouched/dhs",
                               "BD_2004_DHS_02032022_1033_172978/BDGE4JFL",
                               "BDGE4JFL.shp"))
+BDBR_1999_GPS <- st_read(here("data/untouched/dhs",
+                              "BD_1999-00_DHS_03072022_1129_172978/BDGE42FL",
+                              "BDGE42FL.shp"))
 
 # Floods
 # flood_jul_2004 <- stack(here("data/untouched/floods",
@@ -68,27 +74,38 @@ BG_Adm <- getData("GADM",
 ## Process data
 # Collate birth record across DHS datasets
 BDBR <- rbind(BDBR_2017 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v008, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2018),
               BDBR_2014 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v008, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2014),
               BDBR_2011 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid,  v008, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2011),
               BDBR_2007 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v008, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2007),
               BDBR_2004 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
-                mutate(DHSYEAR = 2004))
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v008, v011, v106, v190, v201, v212) %>%
+                mutate(DHSYEAR = 2004),
+              BDBR_1999 %>%
+                mutate(v190 = 0) %>% # Input wealth index for 1999. The value doesn't matter as matching of women will be done within a survey wave
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v008, v011, v106, v190, v201, v212) %>%
+                mutate(DHSYEAR = 2000))
 
 # Collate GPS DHS datasets
 BDBR_GPS <- rbind(BDBR_2017_GPS,
                   BDBR_2014_GPS,
                   BDBR_2011_GPS,
                   BDBR_2007_GPS,
-                  BDBR_2004_GPS)
+                  BDBR_2004_GPS,
+                  BDBR_1999_GPS)
 
 ## Extract flood exposure
 # Crop flood map to Bangladesh's extent (adding some margins)
@@ -114,7 +131,13 @@ birth_records_formated <-
                             yes = "DHAKA",
                             no = Region),
             LATNUM = replace(LATNUM, LATNUM == 0, NA),
-            LONGNUM = replace(LONGNUM, LONGNUM == 0, NA)) %>%
+            LONGNUM = replace(LONGNUM, LONGNUM == 0, NA),
+            Interview_Date_Month_CMC = v008,
+            Birth_Date_Mother_Month_CMC = v011,
+            Highest_Level_Education = v106,
+            Wealth_Index = v190,
+            Total_Children = v201,
+            Age_Mother_First_Birth_Years = v212) %>%
      dplyr::select(Birth_Date_Month_CMC,
                    Age_At_Death_Months,
                    Region,
@@ -123,6 +146,13 @@ birth_records_formated <-
                    URBAN_RURA,
                    LATNUM,
                    LONGNUM,
+                   caseid,
+                   Interview_Date_Month_CMC,
+                   Birth_Date_Mother_Month_CMC,
+                   Highest_Level_Education,
+                   Wealth_Index,
+                   Total_Children,
+                   Age_Mother_First_Birth_Years,
                    Flooded))
 
 #-------------------------------------------------------------------------------
