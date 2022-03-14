@@ -20,17 +20,17 @@ birth_records_formated <- readRDS(file = here("data/temp",
 #-------------------------------------------------------------------------------
 
 ## Process data
-# Filter out data with missing flood exposure (15 out of 2935 clusters)
+# Filter out data with missing flood exposure (13 out of 2594 clusters)
 # 3 clusters with wrong GPS coordinates (0,0) from MIS source (not GPS)
-# 12 clusters with missing flood exposure but apparent ok GPS coordinates (To sort out later)
+# 10 clusters with missing flood exposure but apparent ok GPS coordinates
 
 birth_records_0 <- (birth_records_formated %>%
                       filter(!is.na(Flooded)))
 
-# Restrict dataset to 30 years before start of 2017 DHS survey wave
+# Restrict dataset to 5 years prior 2004 flood and 5 years after 2007 flood
 birth_records <- (birth_records_0 %>%
-                    filter(Birth_Date_Month_CMC <= 1414) %>% # October 2017 (start of DHS2018 survey)
-                    filter(Birth_Date_Month_CMC >= 1055) # November 1987 (30 years before)
+                    filter(Birth_Date_Month_CMC >= 1189) %>% # January 1999
+                    filter(Birth_Date_Month_CMC <= 1356) # December 2012
                   )
 
 

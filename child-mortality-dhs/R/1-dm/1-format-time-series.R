@@ -3,7 +3,7 @@
 # @Organization - UCSF
 # @Project - Effects of floods on child mortality in Bangladesh
 # @Author - Francois Rerolle, rerollefrancois@gmail.com
-# @Description - This formats the time series from the birth record history
+# @Description - This code formats the time series from the birth record history
 
 #-------------------------------------------------------------------------------
 
@@ -15,6 +15,12 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 
 ## Load data
 birth_records <- readRDS(file = here("data/final", "birth_records"))
+matched_mothers <- readRDS(file = here("data/final", "matched_mothers"))
+
+birth_records <- (birth_records %>%
+                    right_join(matched_mothers %>%
+                                dplyr::select(caseid))
+                  )
 
 #-------------------------------------------------------------------------------
 
@@ -23,11 +29,11 @@ birth_records <- readRDS(file = here("data/final", "birth_records"))
 # Monthly
 monthly_time_series <- 
   (birth_records %>%
-     group_by(Birth_Date_Month_CMC, Flooded) %>%
+     group_by(Birth_Date_Month_CMC, Region, Flooded) %>%
      summarise(Number_Of_Birth = n(),
                Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 0,
                                           na.rm = T)) %>%
-     group_by(Flooded) %>%
+     group_by(Region, Flooded) %>%
      mutate(Number_Of_Birth_QS = lag(Number_Of_Birth) + Number_Of_Birth + lead(Number_Of_Birth),
             Number_Of_Dead_Birth_QS = lag(Number_Of_Dead_Birth) + Number_Of_Dead_Birth + lead(Number_Of_Dead_Birth),
             Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth,
