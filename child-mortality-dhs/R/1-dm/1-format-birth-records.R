@@ -31,6 +31,9 @@ BDBR_2007 <- read_dta(here("data/untouched/dhs",
 BDBR_2004 <- read_dta(here("data/untouched/dhs",
                            "BD_2004_DHS_02032022_1033_172978/BDBR4JDT",
                            "BDBR4JFL.DTA"))
+BDBR_1999 <- read_dta(here("data/untouched/dhs",
+                           "BD_1999-00_DHS_03072022_1129_172978/BDBR41DT",
+                           "BDBR41FL.DTA"))
 
 # Cluster's GPS
 BDBR_2017_GPS <- st_read(here("data/untouched/dhs",
@@ -48,6 +51,9 @@ BDBR_2007_GPS <- st_read(here("data/untouched/dhs",
 BDBR_2004_GPS <- st_read(here("data/untouched/dhs",
                               "BD_2004_DHS_02032022_1033_172978/BDGE4JFL",
                               "BDGE4JFL.shp"))
+BDBR_1999_GPS <- st_read(here("data/untouched/dhs",
+                              "BD_1999-00_DHS_03072022_1129_172978/BDGE42FL",
+                              "BDGE42FL.shp"))
 
 # Floods
 # flood_jul_2004 <- stack(here("data/untouched/floods",
@@ -81,14 +87,18 @@ BDBR <- rbind(BDBR_2017 %>%
                 mutate(DHSYEAR = 2007),
               BDBR_2004 %>%
                 dplyr::select(b3, b7, DHSCLUST = v001) %>%
-                mutate(DHSYEAR = 2004))
+                mutate(DHSYEAR = 2004),
+              BDBR_1999 %>%
+                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                mutate(DHSYEAR = 2000))
 
 # Collate GPS DHS datasets
 BDBR_GPS <- rbind(BDBR_2017_GPS,
                   BDBR_2014_GPS,
                   BDBR_2011_GPS,
                   BDBR_2007_GPS,
-                  BDBR_2004_GPS)
+                  BDBR_2004_GPS,
+                  BDBR_1999_GPS)
 
 ## Extract flood exposure
 # Crop flood map to Bangladesh's extent (adding some margins)
