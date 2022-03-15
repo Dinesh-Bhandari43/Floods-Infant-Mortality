@@ -74,22 +74,29 @@ BG_Adm <- getData("GADM",
 ## Process data
 # Collate birth record across DHS datasets
 BDBR <- rbind(BDBR_2017 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2018),
               BDBR_2014 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2014),
               BDBR_2011 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2011),
               BDBR_2007 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2007),
               BDBR_2004 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2004),
               BDBR_1999 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001) %>%
+                mutate(v190 = 0) %>% #Input wealth index for 1999 survey wave. Actual value doesn't matter as matching happens within survey wave
+                dplyr::select(b3, b7, DHSCLUST = v001,
+                              caseid, v011, v106, v190, v201, v212) %>%
                 mutate(DHSYEAR = 2000))
 
 # Collate GPS DHS datasets
@@ -124,7 +131,12 @@ birth_records_formated <-
                             yes = "DHAKA",
                             no = Region),
             LATNUM = replace(LATNUM, LATNUM == 0, NA),
-            LONGNUM = replace(LONGNUM, LONGNUM == 0, NA)) %>%
+            LONGNUM = replace(LONGNUM, LONGNUM == 0, NA),
+            Birth_Date_Mother_Month_CMC = v011,
+            Highest_Level_Education = v106,
+            Wealth_Index = v190,
+            Total_Children = v201,
+            Age_Mother_First_Birth_Years = v212) %>%
      dplyr::select(Birth_Date_Month_CMC,
                    Age_At_Death_Months,
                    Region,
@@ -133,6 +145,12 @@ birth_records_formated <-
                    URBAN_RURA,
                    LATNUM,
                    LONGNUM,
+                   caseid,
+                   Birth_Date_Mother_Month_CMC,
+                   Highest_Level_Education,
+                   Wealth_Index,
+                   Total_Children,
+                   Age_Mother_First_Birth_Years,
                    Flooded))
 
 #-------------------------------------------------------------------------------
