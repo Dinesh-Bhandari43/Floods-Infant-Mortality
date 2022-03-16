@@ -31,7 +31,7 @@ monthly_time_series <-
   (birth_records %>%
      group_by(Birth_Date_Month_CMC, Region, Flooded) %>%
      summarise(Number_Of_Birth = n(),
-               Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 0,
+               Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 1,
                                           na.rm = T)) %>%
      group_by(Region, Flooded) %>%
      mutate(Number_Of_Birth_QS = lag(Number_Of_Birth) + Number_Of_Birth + lead(Number_Of_Birth),
