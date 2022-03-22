@@ -24,12 +24,20 @@ birth_records <- readRDS(file = here("data/final", "birth_records"))
 mother_records <- 
   (birth_records %>%
      dplyr::select(-c(Birth_Date_Month_CMC, Age_At_Death_Months)) %>%
-     distinct()
+     distinct() %>%
+     replace_na(list(Source_Of_Drinking_Water = 99, # Input 99 for NA otherwise reocrds needs to be discarded before being matched
+                     Type_Of_Toilet_Facility = 99,
+                     Main_Floor_Material = 99,
+                     Main_Wall_Material = 99,
+                     Main_Roof_Material = 99,
+                     Toilets_Facilities_Shared_Other_HH = 99))
 )
 
 m.out0 <- matchit(factor(Flooded) ~ Region + factor(DHSYEAR) + URBAN_RURA +
                     Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
-                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years,
+                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
+                    Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
+                    Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
                   data = mother_records,
                   method = NULL,
                   distance = "glm")
@@ -38,10 +46,14 @@ summary(m.out0)
 
 m.out1 <- matchit(factor(Flooded) ~ Region + factor(DHSYEAR) + URBAN_RURA +
                     Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
-                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years,
+                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
+                    Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
+                    Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
                   data = mother_records,
                   method = "nearest",
-                  distance = "glm")
+                  exact = "DHSYEAR",
+                  distance = "glm",
+                  link = "logit")
 
 summary(m.out1)
 

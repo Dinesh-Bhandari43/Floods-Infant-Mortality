@@ -73,31 +73,40 @@ BG_Adm <- getData("GADM",
 
 ## Process data
 # Collate birth record across DHS datasets
-BDBR <- rbind(BDBR_2017 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001,
-                              caseid, v011, v106, v190, v201, v212) %>%
+BDBR <- rbind_labelled(BDBR_2017 %>% ### Warning points out labels may differ across surveys. Not a problem since women are matched within surveys
+                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104,
+                              caseid, v011, v106, v190, v201, v212,
+                              v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2018),
               BDBR_2014 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001,
-                              caseid, v011, v106, v190, v201, v212) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104,
+                              caseid, v011, v106, v190, v201, v212,
+                              v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2014),
               BDBR_2011 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001,
-                              caseid, v011, v106, v190, v201, v212) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104,
+                              caseid, v011, v106, v190, v201, v212,
+                              v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2011),
               BDBR_2007 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001,
-                              caseid, v011, v106, v190, v201, v212) %>%
+                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104,
+                              caseid, v011, v106, v190, v201, v212,
+                              v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2007),
               BDBR_2004 %>%
-                dplyr::select(b3, b7, DHSCLUST = v001,
-                              caseid, v011, v106, v190, v201, v212) %>%
+                mutate(v160 = 99) %>% 
+                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104,
+                              caseid, v011, v106, v190, v201, v212,
+                              v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2004),
               BDBR_1999 %>%
-                mutate(v190 = 0) %>% #Input wealth index for 1999 survey wave. Actual value doesn't matter as matching happens within survey wave
-                dplyr::select(b3, b7, DHSCLUST = v001,
-                              caseid, v011, v106, v190, v201, v212) %>%
-                mutate(DHSYEAR = 2000))
+                mutate(v160 = 99,
+                       v190 = 99) %>% #Input wealth index for 1999 survey wave. Actual value doesn't matter as matching happens within survey wave
+                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104,
+                              caseid, v011, v106, v190, v201, v212,
+                              v025, v113, v116, v127, v128, v129, v160) %>%
+                mutate(DHSYEAR = 2000)
+              )
 
 # Collate GPS DHS datasets
 BDBR_GPS <- rbind(BDBR_2017_GPS,
@@ -132,11 +141,20 @@ birth_records_formated <-
                             no = Region),
             LATNUM = replace(LATNUM, LATNUM == 0, NA),
             LONGNUM = replace(LONGNUM, LONGNUM == 0, NA),
+            Years_Lived_In_Place_Of_Residence = v104,
+            Women_Sampling_Weight = v005,
             Birth_Date_Mother_Month_CMC = v011,
             Highest_Level_Education = v106,
             Wealth_Index = v190,
             Total_Children = v201,
-            Age_Mother_First_Birth_Years = v212) %>%
+            Age_Mother_First_Birth_Years = v212,
+            Type_Of_Place_Of_Residence = v025,
+            Source_Of_Drinking_Water = v113,
+            Type_Of_Toilet_Facility = v116,
+            Main_Floor_Material = v127,
+            Main_Wall_Material = v128,
+            Main_Roof_Material = v129,
+            Toilets_Facilities_Shared_Other_HH = v160) %>%
      dplyr::select(Birth_Date_Month_CMC,
                    Age_At_Death_Months,
                    Region,
@@ -146,11 +164,20 @@ birth_records_formated <-
                    LATNUM,
                    LONGNUM,
                    caseid,
+                   Years_Lived_In_Place_Of_Residence,
+                   Women_Sampling_Weight,
                    Birth_Date_Mother_Month_CMC,
                    Highest_Level_Education,
                    Wealth_Index,
                    Total_Children,
                    Age_Mother_First_Birth_Years,
+                   Type_Of_Place_Of_Residence,
+                   Source_Of_Drinking_Water,
+                   Type_Of_Toilet_Facility,
+                   Main_Floor_Material,
+                   Main_Wall_Material,
+                   Main_Roof_Material,
+                   Toilets_Facilities_Shared_Other_HH,
                    Flooded))
 
 #-------------------------------------------------------------------------------

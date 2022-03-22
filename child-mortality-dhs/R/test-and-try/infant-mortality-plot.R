@@ -72,10 +72,10 @@ monthly_birth_plot_RR <- (monthly_time_series_qs_flooded_vs_non_flooded_RR
                           %>% mutate(Infant_Mortality_RR = Infant_Mortality_Season_RR,
                                      Infant_Mortality_RR_lb = Infant_Mortality_Season_RR_lb,
                                      Infant_Mortality_RR_ub = Infant_Mortality_Season_RR_ub)
-                       %>% ggplot(aes(x = Birth_Date_Month_CMC, y = Infant_Mortality_RR, col = Season.x))
+                       %>% ggplot(aes(x = Birth_Date_Month_CMC, y = Infant_Mortality_RR, group = 1, col = Season.x))
                        + geom_point()
                        # + geom_smooth(method = "lm", se = F)
-                       # + geom_smooth(se = T, span = 0.08)
+                       + geom_smooth(se = T, span = 0.08)
                        + geom_errorbar(aes(ymin = Infant_Mortality_RR_lb, ymax = Infant_Mortality_RR_ub))
                        + scale_x_continuous(breaks = seq(1063, 1411, by = 12), labels = paste("July", 1988:2017))
                        # + scale_x_continuous(breaks = seq(1063, 1411-6*12, by = 12), labels = paste("July", 1988:(2017-6)))

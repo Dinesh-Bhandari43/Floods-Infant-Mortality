@@ -28,10 +28,16 @@ birth_records_0 <- (birth_records_formated %>%
                       filter(!is.na(Flooded)))
 
 # Restrict dataset to before 2017 survey wave started and back 30 years
-birth_records <- (birth_records_0 %>%
-                    filter(Birth_Date_Month_CMC <= 1413) %>% # September 2017
-                    filter(Birth_Date_Month_CMC >= 1053) # September 1987
-                    
+birth_records_1 <- (birth_records_0 %>%
+                      filter(Birth_Date_Month_CMC <= 1413) %>% # September 2017
+                      filter(Birth_Date_Month_CMC >= 1053) # September 1987
+                  )
+
+# Restrict to birth occuring when mother lived at current place of residence
+birth_records <- (birth_records_1 %>%
+                    mutate(Year_Of_Birth = 1900 + floor((Birth_Date_Month_CMC-1)/12)) %>%
+                    filter(Years_Lived_In_Place_Of_Residence < 95) %>% # Removes visitors to the community (95 and 96)
+                    filter(DHSYEAR - (Years_Lived_In_Place_Of_Residence + 1) <= Year_Of_Birth)
                   )
 
 
