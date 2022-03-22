@@ -34,11 +34,17 @@ birth_records_1 <- (birth_records_0 %>%
                   )
 
 # Restrict to birth occuring when mother lived at current place of residence
-birth_records <- (birth_records_1 %>%
+birth_records_2 <- (birth_records_1 %>%
                     mutate(Year_Of_Birth = 1900 + floor((Birth_Date_Month_CMC-1)/12)) %>%
                     filter(Years_Lived_In_Place_Of_Residence < 95) %>% # Removes visitors to the community (95 and 96)
-                    filter(DHSYEAR - (Years_Lived_In_Place_Of_Residence + 1) <= Year_Of_Birth)
+                    filter(DHSYEAR - (Years_Lived_In_Place_Of_Residence + 1) <= Year_Of_Birth) %>%
+                    dplyr::select(-Year_Of_Birth)
                   )
+
+# Restrict to singleton births
+birth_records <- (birth_records_2 %>%
+                    filter(Twin_Birth == 0) %>%
+                    dplyr::select(-Twin_Birth))
 
 
 #-------------------------------------------------------------------------------

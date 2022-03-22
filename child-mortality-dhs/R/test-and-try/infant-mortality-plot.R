@@ -39,8 +39,8 @@ monthly_birth_plot <- (monthly_time_series_qs_flooded_vs_non_flooded
                        + scale_x_continuous(breaks = seq(1063, 1411, by = 12), labels = paste("July", 1988:2017))
                        # + xlim(c(1135, 1291))
                        + ylim(c(0,15))
-                       + geom_vline(xintercept = 1291) # July 2007
-                       + geom_vline(xintercept = 1255) # July 2004
+                       # + geom_vline(xintercept = 1291) # July 2007
+                       # + geom_vline(xintercept = 1255) # July 2004
                        + xlab("Date")
                        + ylab("Infant mortality (%)")
                        + theme(axis.text.x = element_text(angle = 30))
@@ -75,14 +75,14 @@ monthly_birth_plot_RR <- (monthly_time_series_qs_flooded_vs_non_flooded_RR
                        %>% ggplot(aes(x = Birth_Date_Month_CMC, y = Infant_Mortality_RR, group = 1, col = Season.x))
                        + geom_point()
                        # + geom_smooth(method = "lm", se = F)
-                       + geom_smooth(se = T, span = 0.08)
+                       # + geom_smooth(se = T, span = 0.08)
                        + geom_errorbar(aes(ymin = Infant_Mortality_RR_lb, ymax = Infant_Mortality_RR_ub))
                        + scale_x_continuous(breaks = seq(1063, 1411, by = 12), labels = paste("July", 1988:2017))
                        # + scale_x_continuous(breaks = seq(1063, 1411-6*12, by = 12), labels = paste("July", 1988:(2017-6)))
                        # + xlim(c(1063, 1411 - 6*12))
-                       + ylim(c(0,2.5))
-                       # + geom_vline(xintercept = 1291, col = "orange") # July 2007
-                       # + geom_vline(xintercept = 1255, col = "orange") # July 2004
+                       + ylim(c(0,7.5))
+                       + geom_vline(xintercept = 1291, col = "orange") # July 2007
+                       + geom_vline(xintercept = 1255, col = "orange") # July 2004
                        + geom_hline(yintercept = 1) # RR = 1
                        + xlab("Date")
                        # + facet_wrap(~Season.x)

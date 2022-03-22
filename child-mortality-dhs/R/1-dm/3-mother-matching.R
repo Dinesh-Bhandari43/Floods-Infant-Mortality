@@ -25,7 +25,7 @@ mother_records <-
   (birth_records %>%
      dplyr::select(-c(Birth_Date_Month_CMC, Age_At_Death_Months)) %>%
      distinct() %>%
-     replace_na(list(Source_Of_Drinking_Water = 99, # Input 99 for NA otherwise reocrds needs to be discarded before being matched
+     replace_na(list(Source_Of_Drinking_Water = 99, # Input 99 for NA otherwise records needs to be discarded before being matched
                      Type_Of_Toilet_Facility = 99,
                      Main_Floor_Material = 99,
                      Main_Wall_Material = 99,
@@ -57,12 +57,12 @@ m.out1 <- matchit(factor(Flooded) ~ Region + factor(DHSYEAR) + URBAN_RURA +
 
 summary(m.out1)
 
-plot(m.out1, type = "jitter", interactive = FALSE)
-
-plot(m.out1, type = "qq", interactive = FALSE,
-     which.xs = c("Total_Children", "URBAN_RURA"))
-
-plot(summary(m.out1))
+# plot(m.out1, type = "jitter", interactive = FALSE)
+# 
+# plot(m.out1, type = "qq", interactive = FALSE,
+#      which.xs = c("Total_Children", "URBAN_RURA"))
+# 
+# plot(summary(m.out1))
 
 m.data1 <- match.data(m.out1)
 
