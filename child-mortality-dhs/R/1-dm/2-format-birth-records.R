@@ -55,19 +55,8 @@ BDBR_1999_GPS <- st_read(here("data/untouched/dhs",
                               "BD_1999-00_DHS_03072022_1129_172978/BDGE42FL",
                               "BDGE42FL.shp"))
 
-# Floods
-# flood_jul_2004 <- stack(here("data/untouched/floods",
-#                              "DFO_2507_From_20040620_to_20041007",
-#                              "DFO_2507_From_20040620_to_20041007.tif")) # For later
-flood_jul_2007 <- stack(here("data/untouched/floods",
-                             "DFO_3136_From_20070721_to_20071015",
-                             "DFO_3136_From_20070721_to_20071015.tif"))
-
-# Bangladesh admin
-BG_Adm <- getData("GADM",
-                  country = "BGD",
-                  level = 1,
-                  path = here("data/untouched/country-admin"))
+# Flood area
+flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
 
 #-------------------------------------------------------------------------------
 
@@ -117,13 +106,9 @@ BDBR_GPS <- rbind(BDBR_2017_GPS,
                   BDBR_1999_GPS)
 
 ## Extract flood exposure
-# Crop flood map to Bangladesh's extent (adding some margins)
-# flood_jul_2004_cropped <- crop(flood_jul_2004, 1.2 * extent(BG_Adm))
-flood_jul_2007_cropped <- crop(flood_jul_2007, 1.2 * extent(BG_Adm))
-
 # Extract flood exposure at DHS clusters
-BDBR_GPS$Flooded <- as.factor(raster::extract(x = flood_jul_2007_cropped[[1]],
-                                              y = BDBR_GPS))
+BDBR_GPS$Flood_Prone_Percent <- raster::extract(x = flood_area_percent,
+                                                y = BDBR_GPS)
 
 # Merge
 BDBR_Flood <- (BDBR %>% left_join(BDBR_GPS))
@@ -180,7 +165,7 @@ birth_records_formated <-
                    Main_Wall_Material,
                    Main_Roof_Material,
                    Toilets_Facilities_Shared_Other_HH,
-                   Flooded))
+                   Flood_Prone_Percent))
 
 #-------------------------------------------------------------------------------
 

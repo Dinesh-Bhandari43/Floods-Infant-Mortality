@@ -25,7 +25,7 @@ birth_records_formated <- readRDS(file = here("data/temp",
 # 12 clusters with missing flood exposure but apparent ok GPS coordinates
 
 birth_records_0 <- (birth_records_formated %>%
-                      filter(!is.na(Flooded)))
+                      filter(!is.na(Flood_Prone_Percent)))
 
 # Restrict dataset to before 2017 survey wave started and back 30 years
 birth_records_1 <- (birth_records_0 %>%
