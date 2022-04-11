@@ -15,16 +15,16 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 #-------------------------------------------------------------------------------
 
 ## Load data
-birth_records <- readRDS(file = here("data/final", "birth_records"))
+birth_records_flooded <- readRDS(file = here("data/final", "birth_records_flooded"))
 
 #-------------------------------------------------------------------------------
 
 ## Process data
 # Restrict dataset to mothers only
 mother_records <- 
-  (birth_records %>%
+  (birth_records_flooded %>%
      dplyr::select(-c(Birth_Date_Month_CMC, Age_At_Death_Months)) %>%
-     distinct() %>%
+     distinct(DHSCLUST, DHSYEAR, caseid, .keep_all = T) %>%
      replace_na(list(Source_Of_Drinking_Water = 99, # Input 99 for NA otherwise records needs to be discarded before being matched
                      Type_Of_Toilet_Facility = 99,
                      Main_Floor_Material = 99,
