@@ -4,6 +4,9 @@ data
 # Manuscript folder
 Manuscript
 
+# Output folder
+output
+
 # History files
 .Rhistory
 .Rapp.history
