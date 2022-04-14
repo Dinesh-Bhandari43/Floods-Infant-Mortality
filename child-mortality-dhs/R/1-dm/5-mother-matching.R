@@ -104,5 +104,4 @@ saveRDS(m.out1, file = here("child-mortality-dhs/output/matching", "matching_1_q
 saveRDS(m.out2, file = here("child-mortality-dhs/output/matching", "matching_2_quartile"))
 saveRDS(m.out3, file = here("child-mortality-dhs/output/matching", "matching_3_quartile"))
 
-
 #-------------------------------------------------------------------------------
