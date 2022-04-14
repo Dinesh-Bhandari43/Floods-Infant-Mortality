@@ -33,18 +33,8 @@ mother_records <-
                      Toilets_Facilities_Shared_Other_HH = 99))
 )
 
-m.out0 <- matchit(factor(Flooded) ~ Region + factor(DHSYEAR) + URBAN_RURA +
-                    Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
-                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
-                    Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
-                    Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
-                  data = mother_records,
-                  method = NULL,
-                  distance = "glm")
-
-summary(m.out0)
-
-m.out1 <- matchit(factor(Flooded) ~ Region + factor(DHSYEAR) + URBAN_RURA +
+# 0 quartile = min
+m.out0 <- matchit(factor(Flooded_0_quartile) ~ Region + factor(DHSYEAR) + URBAN_RURA +
                     Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
                     factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
                     Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
@@ -55,22 +45,64 @@ m.out1 <- matchit(factor(Flooded) ~ Region + factor(DHSYEAR) + URBAN_RURA +
                   distance = "glm",
                   link = "logit")
 
-summary(m.out1)
+m.data0 <- match.data(m.out0)
 
-# plot(m.out1, type = "jitter", interactive = FALSE)
-# 
-# plot(m.out1, type = "qq", interactive = FALSE,
-#      which.xs = c("Total_Children", "URBAN_RURA"))
-# 
-# plot(summary(m.out1))
+# 1 quartile
+m.out1 <- matchit(factor(Flooded_1_quartile) ~ Region + factor(DHSYEAR) + URBAN_RURA +
+                    Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
+                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
+                    Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
+                    Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
+                  data = mother_records,
+                  method = "nearest",
+                  exact = "DHSYEAR",
+                  distance = "glm",
+                  link = "logit")
 
 m.data1 <- match.data(m.out1)
+
+# 2 quartile
+m.out2 <- matchit(factor(Flooded_2_quartile) ~ Region + factor(DHSYEAR) + URBAN_RURA +
+                    Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
+                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
+                    Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
+                    Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
+                  data = mother_records,
+                  method = "nearest",
+                  exact = "DHSYEAR",
+                  distance = "glm",
+                  link = "logit")
+
+m.data2 <- match.data(m.out2)
+
+# 3 quartile
+m.out3 <- matchit(factor(Flooded_3_quartile) ~ Region + factor(DHSYEAR) + URBAN_RURA +
+                    Birth_Date_Mother_Month_CMC + factor(Highest_Level_Education) +
+                    factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
+                    Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
+                    Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
+                  data = mother_records,
+                  method = "nearest",
+                  exact = "DHSYEAR",
+                  distance = "glm",
+                  link = "logit")
+
+m.data3 <- match.data(m.out3)
 
 
 #-------------------------------------------------------------------------------
 
 # Save dataset
-saveRDS(m.data1, file = here("data/final", "matched_mothers"))
-readr::write_csv(m.data1, file = here("data/final", "matched_mothers.csv"))
+saveRDS(m.data0, file = here("data/final", "matched_mothers_0_quartile"))
+saveRDS(m.data1, file = here("data/final", "matched_mothers_1_quartile"))
+saveRDS(m.data2, file = here("data/final", "matched_mothers_2_quartile"))
+saveRDS(m.data3, file = here("data/final", "matched_mothers_3_quartile"))
+
+# Save matching models for output
+saveRDS(m.out0, file = here("child-mortality-dhs/output/matching", "matching_0_quartile"))
+saveRDS(m.out1, file = here("child-mortality-dhs/output/matching", "matching_1_quartile"))
+saveRDS(m.out2, file = here("child-mortality-dhs/output/matching", "matching_2_quartile"))
+saveRDS(m.out3, file = here("child-mortality-dhs/output/matching", "matching_3_quartile"))
+
 
 #-------------------------------------------------------------------------------
