@@ -53,7 +53,7 @@ m.out1 <- matchit(factor(Flooded_1_quartile) ~ Region + factor(DHSYEAR) + URBAN_
                     factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
                     Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
                     Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
-                  data = mother_records,
+                  data = mother_records %>% filter(!(Flooded_0_quartile & !Flooded_1_quartile)),
                   method = "nearest",
                   exact = "DHSYEAR",
                   distance = "glm",
@@ -67,7 +67,7 @@ m.out2 <- matchit(factor(Flooded_2_quartile) ~ Region + factor(DHSYEAR) + URBAN_
                     factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
                     Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
                     Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
-                  data = mother_records,
+                  data = mother_records %>% filter(!(Flooded_0_quartile & !Flooded_2_quartile)),
                   method = "nearest",
                   exact = "DHSYEAR",
                   distance = "glm",
@@ -81,7 +81,7 @@ m.out3 <- matchit(factor(Flooded_3_quartile) ~ Region + factor(DHSYEAR) + URBAN_
                     factor(Wealth_Index) + Total_Children + Age_Mother_First_Birth_Years +
                     Type_Of_Place_Of_Residence + Source_Of_Drinking_Water + Type_Of_Toilet_Facility +
                     Main_Floor_Material + Main_Wall_Material + Main_Roof_Material + Toilets_Facilities_Shared_Other_HH,
-                  data = mother_records,
+                  data = mother_records %>% filter(!(Flooded_0_quartile & !Flooded_3_quartile)),
                   method = "nearest",
                   exact = "DHSYEAR",
                   distance = "glm",

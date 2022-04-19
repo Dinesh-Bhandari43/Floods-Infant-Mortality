@@ -14,38 +14,94 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 #-------------------------------------------------------------------------------
 
 ## Load data
-birth_records <- readRDS(file = here("data/final", "birth_records"))
-matched_mothers <- readRDS(file = here("data/final", "matched_mothers"))
+birth_records_flooded <- readRDS(file = here("data/final", "birth_records_flooded"))
+matched_mothers_0_quartile <- readRDS(file = here("data/final", "matched_mothers_0_quartile"))
+matched_mothers_1_quartile <- readRDS(file = here("data/final", "matched_mothers_1_quartile"))
+matched_mothers_2_quartile <- readRDS(file = here("data/final", "matched_mothers_2_quartile"))
+matched_mothers_3_quartile <- readRDS(file = here("data/final", "matched_mothers_3_quartile"))
 
-birth_records <- (birth_records %>%
-                    right_join(matched_mothers %>%
-                                dplyr::select(caseid))
-                  )
+## Filter to matched mothers only
+birth_records_flooded_0_quartile <- (birth_records_flooded %>%
+                                       right_join(matched_mothers_0_quartile %>%
+                                                    dplyr::select(caseid)) %>%
+                                       mutate(Flooded = Flooded_0_quartile)
+                                     )
+
+birth_records_flooded_1_quartile <- (birth_records_flooded %>%
+                                       right_join(matched_mothers_1_quartile %>%
+                                                    dplyr::select(caseid)) %>%
+                                       mutate(Flooded = Flooded_1_quartile)
+                                     )
+
+birth_records_flooded_2_quartile <- (birth_records_flooded %>%
+                                       right_join(matched_mothers_2_quartile %>%
+                                                    dplyr::select(caseid)) %>%
+                                       mutate(Flooded = Flooded_2_quartile)
+                                     )
+
+birth_records_flooded_3_quartile <- (birth_records_flooded %>%
+                                       right_join(matched_mothers_3_quartile %>%
+                                                    dplyr::select(caseid)) %>%
+                                       mutate(Flooded = Flooded_3_quartile)
+                                     )
 
 #-------------------------------------------------------------------------------
 
 ## Process data
 # Aggregate birth records data at monthly temporal resolution
-# Monthly
-monthly_time_series <- 
-  (birth_records %>%
-     group_by(Birth_Date_Month_CMC, Region, Flooded) %>%
+monthly_time_series_0_quartile <- 
+  (birth_records_flooded_0_quartile %>%
+     group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = n(),
                Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 1,
                                           na.rm = T)) %>%
-     group_by(Region, Flooded) %>%
-     mutate(Number_Of_Birth_QS = lag(Number_Of_Birth) + Number_Of_Birth + lead(Number_Of_Birth),
-            Number_Of_Dead_Birth_QS = lag(Number_Of_Dead_Birth) + Number_Of_Dead_Birth + lead(Number_Of_Dead_Birth),
-            Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth,
-            Infant_Mortality_Quarterly_Smoothed = Number_Of_Dead_Birth_QS/Number_Of_Birth_QS) %>%
-     mutate(Post_2004 = ifelse(Birth_Date_Month_CMC >= 1256, 1, 0), # Aug 2004
-            Post_2007 = ifelse(Birth_Date_Month_CMC >= 1292, 1, 0)) # Aug 2007
+     mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
+     ungroup()
 )
+
+monthly_time_series_1_quartile <- 
+  (birth_records_flooded_1_quartile %>%
+     group_by(Birth_Date_Month_CMC, Flooded) %>%
+     summarise(Number_Of_Birth = n(),
+               Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 1,
+                                          na.rm = T)) %>%
+     mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
+     ungroup()
+  )
+
+monthly_time_series_2_quartile <- 
+  (birth_records_flooded_2_quartile %>%
+     group_by(Birth_Date_Month_CMC, Flooded) %>%
+     summarise(Number_Of_Birth = n(),
+               Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 1,
+                                          na.rm = T)) %>%
+     mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
+     ungroup()
+  )
+
+monthly_time_series_3_quartile <- 
+  (birth_records_flooded_3_quartile %>%
+     group_by(Birth_Date_Month_CMC, Flooded) %>%
+     summarise(Number_Of_Birth = n(),
+               Number_Of_Dead_Birth = sum(Age_At_Death_Months <= 1,
+                                          na.rm = T)) %>%
+     mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
+     ungroup()
+  )
 
 #-------------------------------------------------------------------------------
 
 # Save dataset
-saveRDS(monthly_time_series, file = here("data/final", "monthly_time_series"))
-readr::write_csv(monthly_time_series, file = here("data/final", "monthly_time_series.csv"))
+saveRDS(monthly_time_series_0_quartile,
+        file = here("data/final", "monthly_time_series_0_quartile"))
+
+saveRDS(monthly_time_series_1_quartile,
+        file = here("data/final", "monthly_time_series_1_quartile"))
+
+saveRDS(monthly_time_series_2_quartile,
+        file = here("data/final", "monthly_time_series_2_quartile"))
+
+saveRDS(monthly_time_series_3_quartile,
+        file = here("data/final", "monthly_time_series_3_quartile"))
 
 #-------------------------------------------------------------------------------
