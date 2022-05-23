@@ -7,17 +7,6 @@
 
 #-------------------------------------------------------------------------------
 
-# # Import packages
-# library(readxl)
-# library(sf)
-# library(tidyverse)
-# library(raster)
-# # library(MODIS)
-# library(MODISTools)
-# library(chirps)
-# library(rmapshaper)
-
-
 library(here)
 
 source(here("child-mortality-dhs/R", "0-config.R"))
@@ -26,22 +15,23 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 # Bangladesh admin
 BGD_Adm <- raster::getData("GADM", country = "BGD", level = 0, path = here("data/untouched/country-admin"))
 
+flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
 
 #######################
 ### Data extraction ###
 #######################
 # For altitude and Modis covariates, idea is to download and rasterize data then perform extraction.
 # For chirps we can download and extract in 1 step
-library(rasterVis)
-param_meta$terraclim
-aa <- getTerraClim(AOI = st_as_sf(BGD_Adm), param = "aet", startDate = "2004-01-01", endDate = "2004-12-31")
-bb <- mask(aa[[1]], BGD_Adm)
-
-gplot(bb) + 
-  geom_tile(aes(fill = value)) +
-  facet_wrap(~ variable) +
-  scale_fill_gradientn(colours = rev(terrain.colors(225))) +
-  coord_equal()
+# library(rasterVis)
+# param_meta$terraclim
+# aa <- getTerraClim(AOI = st_as_sf(BGD_Adm), param = "aet", startDate = "2004-01-01", endDate = "2004-12-31")
+# bb <- mask(aa[[1]], BGD_Adm)
+# 
+# ggplot(bb) + 
+#   geom_tile(aes(fill = value)) +
+#   facet_wrap(~ variable) +
+#   scale_fill_gradientn(colours = rev(terrain.colors(225))) +
+#   coord_equal()
 
 #### Randomly sample a couple points over Bangladesh
 set.seed(12345)
@@ -51,6 +41,8 @@ random_sample_points_BGD_sf <- st_as_sf(random_sample_points_BGD) # convert to s
 
 ##### Environmental covariates 
 ##################################################################################################################################
+#### Flood prone area status
+random_sample_points_BGD_sf_flood_prone <- raster::extract(x = flood_area_percent, y = random_sample_points_BGD_sf)
 #### CHIRPS
 BGD_chirps <- NULL
 for(i in 1988:2017){
@@ -69,10 +61,12 @@ for(i in 1988:2017){
   daily_chirps$ID <- 1:number_of_points_to_sample # Correct ID
   daily_chirps$Year <- i
   daily_chirps$Month <- as.numeric(substring(daily_chirps$date, first = 6, last = 7))
+  daily_chirps$Flooded <- random_sample_points_BGD_sf_flood_prone > 0
   
   # Monthly aggregate
   monthly_chirps <- (daily_chirps %>%
-                       group_by(Year, Month) %>%
+                       filter(!is.na(Flooded)) %>%
+                       group_by(Year, Month, Flooded) %>%
                        summarise(Mean_Precipitation_mm = mean(chirps, na.rm = T)))
   
   # Append
