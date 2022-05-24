@@ -47,7 +47,7 @@ data <- (RR_flooded_vs_non_flooded_tb %>%
 #             spacing = 0.5,
 #             hetstat = F)
 
-## Meta analysis (empiric)
+## Meta analysis RR (empiric)
 meta.analysis <- metagen(data = data,
                          subset = Exposure == "0 quartile" & Grouping_Season < 60 & Grouping_Season > 1,
                          TE = RR_log_empiric,
@@ -60,6 +60,24 @@ meta.analysis <- metagen(data = data,
 forest.meta(x = meta.analysis,
             subgroup = T,
             xlab = paste("Infant mortality risk ratio (log) for living in\nflood-prone areas vs non-flood prone areas (empiric)"),
+            fontsize = 8,
+            spacing = 0.5,
+            hetstat = T)
+
+
+## Meta analysis RD (empiric)
+meta.analysis <- metagen(data = data,
+                         subset = Exposure == "0 quartile" & Grouping_Season < 60 & Grouping_Season > 1,
+                         TE = RD_empiric,
+                         seTE = RD_SE_empiric,
+                         subgroup = Subgroup,
+                         studlab = Grouping_Season,
+                         fixed = F,
+                         overall = T)
+
+forest.meta(x = meta.analysis,
+            subgroup = T,
+            xlab = paste("Infant mortality risk difference for living in\nflood-prone areas vs non-flood prone areas (empiric)"),
             fontsize = 8,
             spacing = 0.5,
             hetstat = T)

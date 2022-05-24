@@ -52,6 +52,8 @@ monthly_time_series_list_2 <-
 ## Extract effect estimates Grouping Season
 RR_flooded_vs_non_flooded_tb_quartile <- tibble(RR_log_empiric = rep(NA, 60),
                                                 RR_log_SE_empiric = rep(NA, 60),
+                                                RD_empiric = rep(NA, 60),
+                                                RD_SE_empiric = rep(NA, 60),
                                                 Grouping_Season = rep(1:60))
 
 RR_flooded_vs_non_flooded_tb <- rbind(RR_flooded_vs_non_flooded_tb_quartile %>%
@@ -70,6 +72,10 @@ for (j in 1:4){
                                                              (data$Number_Of_Dead_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]/data$Number_Of_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]))
     RR_flooded_vs_non_flooded_tb$RR_log_SE_empiric[i + (j-1)*60] <- sqrt((1/data$Number_Of_Dead_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) - (1/(data$Number_Of_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])) +
                                                                            (1/data$Number_Of_Dead_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) - (1/(data$Number_Of_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])))
+    RR_flooded_vs_non_flooded_tb$RD_empiric[i + (j-1)*60] <- (data$Number_Of_Dead_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]/data$Number_Of_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) -
+                                                                       (data$Number_Of_Dead_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]/data$Number_Of_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])
+    RR_flooded_vs_non_flooded_tb$RD_SE_empiric[i + (j-1)*60] <- sqrt((data$Number_Of_Dead_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]*((data$Number_Of_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) - data$Number_Of_Dead_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])/(data$Number_Of_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])^3) +
+                                                                       (data$Number_Of_Dead_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]*((data$Number_Of_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) - data$Number_Of_Dead_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])/(data$Number_Of_Birth[which(data$Flooded == FALSE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])])^3))
   }
 }
 

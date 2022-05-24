@@ -47,9 +47,9 @@ birth_records_list <-
 
 
 ## Model
-model_glm <- gam(Infant_Death ~ Flooded*Decade*Season,
+model_glm <- gam(Infant_Death ~ Flooded*factor(Grouping_Season), ## Doesn't run
                  data = birth_records_list[[4]],
-                 family = binomial(link = "log"))
+                 family = binomial(link = "logit"))
 
 summary(model_glm)
 
@@ -74,13 +74,12 @@ RR_flooded_vs_non_flooded_tb <- rbind(RR_flooded_vs_non_flooded_tb_quartile %>%
 
 for (j in 1:4){
   for (i in 1:6){
-    model_gam <- gam(Infant_Death ~ Flooded*relevel(Season, ref = RR_flooded_vs_non_flooded_tb$Season[i])*relevel(Decade, ref = RR_flooded_vs_non_flooded_tb$Decade[i])
-                     + s(Birth_Date_Month_CMC),
+    model_gam <- gam(Infant_Death ~ Flooded*relevel(Season, ref = RR_flooded_vs_non_flooded_tb$Season[i])*relevel(Decade, ref = RR_flooded_vs_non_flooded_tb$Decade[i]),
                      data = birth_records_list[[j]],
                      family = binomial(link = "log"))
     
-    RR_flooded_vs_non_flooded_tb$RR[i + (j-1)*6] <- summary(model_gam)$p.coeff[2]
-    RR_flooded_vs_non_flooded_tb$RR_SE[i + (j-1)*6] <- summary(model_gam)$se[2]
+    RR_flooded_vs_non_flooded_tb$RR[i + (j-1)*6] <- coeftest(model_gam, vcov. = vcovCL, cluster = ~subclass)[2,1]
+    RR_flooded_vs_non_flooded_tb$RR_SE[i + (j-1)*6] <- coeftest(model_gam, vcov. = vcovCL, cluster = ~subclass)[2,2]
   }
 }
 
