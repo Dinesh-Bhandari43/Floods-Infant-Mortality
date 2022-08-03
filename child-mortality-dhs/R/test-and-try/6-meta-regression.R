@@ -42,6 +42,8 @@ BGD_chirps_Grouping_Season <- (BGD_chirps %>%
                                  summarise(Mean_Precipitation_mm = mean(Mean_Precipitation_mm))
                                )
 
+
+
 ## Merge
 data <- (data_RR %>%
            left_join(BGD_chirps_Grouping_Season))
@@ -59,8 +61,24 @@ data_plot <- (data %>%
 
 data_plot
 
+precipitation_plot <- (BGD_chirps %>%
+                         group_by(Flooded, Month) %>%
+                         summarise(Mean_Precipitation_mm = mean(Mean_Precipitation_mm, na.rm = T)) %>%
+                         ggplot(aes(x = Month)) +
+                         geom_smooth(aes(y = Mean_Precipitation_mm, col = Flooded), se = F) +
+                         geom_rect(aes(xmin = 5, xmax = 10, ymin = 5.5, ymax = 7.5), alpha = 0.02) +
+                         ylab("Average daily precipitation (mm)")
+                       )
+
+precipitation_plot
+
 BGD_chirps_plot <- (BGD_chirps_Grouping_Season %>%
                       ggplot())
+
+
+metafor::rma(data = data %>% filter(Flooded == T) %>% filter(Exposure == "0 quartile"),
+             yi = RR_log_empiric,
+             sei = RR_log_SE_empiric)
 
 
 

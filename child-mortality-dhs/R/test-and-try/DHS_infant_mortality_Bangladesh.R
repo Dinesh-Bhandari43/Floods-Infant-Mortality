@@ -25,7 +25,7 @@ flood_jul_2004 <- stack(here("data/untouched/floods", "DFO_2507_From_20040620_to
 flood_jul_2007 <- stack(here("data/untouched/floods", "DFO_3136_From_20070721_to_20071015", "DFO_3136_From_20070721_to_20071015.tif"))
 
 # Bangladesh admin
-BG_Adm <- getData("GADM", country = "BGD", level = 1, path = here("data/untouched/country-admin"))
+BG_Adm <- raster::getData("GADM", country = "BGD", level = 1, path = here("data/untouched/country-admin"))
 
 ## Process data
 # Aggregate
@@ -69,16 +69,16 @@ monthly_birth_plot <- (monthly_birth
                        %>% filter(Number_Of_Birth >= 40)
                        %>% mutate(Period = (b3 > 1233) + (b3 > 1197) + (b3 >= 1231) + (b3 >= 1195))
                        %>% mutate(Group = Period + (5*Flooded))
-                       %>% ggplot(aes(x = b3, y = Infant_Mortality, group = Group, col = Flooded))
+                       %>% ggplot(aes(x = b3, y = Infant_Mortality, group = Flooded, col = Flooded))
                        + geom_point()
-                       + geom_smooth(method = "lm")
-                       # + geom_smooth()
-                       + xlim(c(1100, 1340))
-                       + ylim(c(0,11))
+                       # + geom_smooth(method = "lm")
+                       + geom_smooth()
+                       + xlim(c(1000, 1340))
+                       # + ylim(c(0,11))
                        # + facet_wrap(~v024)
-                       + geom_vline(xintercept = 1232) # August 2007
-                       + geom_vline(xintercept = 1196) # August 2004
-                       + geom_vline(xintercept = 1411) # July 2017
+                       # + geom_vline(xintercept = 1232) # August 2007
+                       # + geom_vline(xintercept = 1196) # August 2004
+                       # + geom_vline(xintercept = 1411) # July 2017
                        + xlab("Date")
                        + ylab("Infant mortality (%)")
                        )

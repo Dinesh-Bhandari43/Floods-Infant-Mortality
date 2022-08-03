@@ -86,8 +86,9 @@ OR_flooded_vs_non_flooded_tb <- rbind(OR_flooded_vs_non_flooded_tb_quartile %>%
 for (j in 1:4){
   for (i in 1:6){
     model_clogit <- survival::clogit(Infant_Death ~ Flooded*relevel(Season, ref = OR_flooded_vs_non_flooded_tb$Season[i])*relevel(Decade, ref = OR_flooded_vs_non_flooded_tb$Decade[i]) + strata(subclass),
-                     data = birth_records_list[[j]],
-                     method = "approximate")
+                     data = birth_records_list[[j]] %>% filter(Women_Sampling_Weight > 0),
+                     method = "approximate",
+                     weights = Women_Sampling_Weight)
     
     OR_flooded_vs_non_flooded_tb$OR_log[i + (j-1)*6] <- summary(model_clogit)$coefficients[1,1]
     OR_flooded_vs_non_flooded_tb$OR_log_SE[i + (j-1)*6] <- summary(model_clogit)$coefficients[1,3]
@@ -132,8 +133,9 @@ OR_flooded_vs_non_flooded_tb <- rbind(OR_flooded_vs_non_flooded_tb_quartile %>%
 for (j in 1:3){
   for (i in 1:60){
     model_clogit <- survival::clogit(Infant_Death ~ Flooded*relevel(factor(Grouping_Season), ref = OR_flooded_vs_non_flooded_tb$Grouping_Season[i]) + strata(subclass),
-                                     data = birth_records_list[[j]],
-                                     method = "approximate")
+                                     data = birth_records_list[[j]] %>% filter(Women_Sampling_Weight > 0),
+                                     method = "approximate",
+                                     weights = Women_Sampling_Weight)
     
     OR_flooded_vs_non_flooded_tb$OR_log[i + (j-1)*60] <- summary(model_clogit)$coefficients[1,1]
     OR_flooded_vs_non_flooded_tb$OR_log_SE[i + (j-1)*60] <- summary(model_clogit)$coefficients[1,3]

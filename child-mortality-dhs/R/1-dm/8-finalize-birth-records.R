@@ -49,6 +49,12 @@ birth_records_flooded_3_quartile <- (birth_records_flooded %>%
                                               Infant_Death = !(Age_At_Death_Months > 1 | is.na(Age_At_Death_Months)))
                                      )
 
+birth_records_flooded_control <- (birth_records_flooded %>%
+                                    filter(Flooded_0_quartile == FALSE) %>%
+                                    mutate(Flooded = "Control",
+                                           Infant_Death = !(Age_At_Death_Months > 1 | is.na(Age_At_Death_Months)))
+)
+
 #-------------------------------------------------------------------------------
 
 # Save dataset
@@ -63,5 +69,8 @@ saveRDS(birth_records_flooded_2_quartile,
 
 saveRDS(birth_records_flooded_3_quartile,
         file = here("data/final", "birth_records_flooded_3_quartile"))
+
+saveRDS(birth_records_flooded_control,
+        file = here("data/final", "birth_records_flooded_control"))
 
 #-------------------------------------------------------------------------------

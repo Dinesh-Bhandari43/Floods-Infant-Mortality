@@ -1,4 +1,11 @@
-# DHS Bangladesh exploration
+#-------------------------------------------------------------------------------
+
+# @Organization - UCSF
+# @Project - Effects of floods on child mortality in Bangladesh
+# @Author - Francois Rerolle, rerollefrancois@gmail.com
+# @Description - This code maps flood prone areas
+
+#-------------------------------------------------------------------------------
 
 library(here)
 
@@ -15,6 +22,8 @@ BGD_Adm <- raster::getData("GADM",
 
 # Flood
 flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
+flood_area_percent_mask <- mask(flood_area_percent, BGD_Adm)
+flood_area_percent_mask_2 <- 100*flood_area_percent_mask
 
 # Cluster' s GPS
 BDBR_2017_GPS <- st_read(here("data/untouched/dhs",
@@ -32,48 +41,74 @@ BDBR_2007_GPS <- st_read(here("data/untouched/dhs",
 BDBR_2004_GPS <- st_read(here("data/untouched/dhs",
                               "BD_2004_DHS_02032022_1033_172978/BDGE4JFL",
                               "BDGE4JFL.shp"))
+BDBR_2000_GPS <- st_read(here("data/untouched/dhs",
+                              "BD_1999-00_DHS_03072022_1129_172978/BDGE42FL",
+                              "BDGE42FL.shp"))
+
+BDBR_GPS <- rbind(BDBR_2017_GPS,
+                  BDBR_2014_GPS,
+                  BDBR_2011_GPS,
+                  BDBR_2007_GPS,
+                  BDBR_2004_GPS,
+                  BDBR_2000_GPS)
+
+BDBR_GPS$Flooded <- extract(flood_area_percent_mask_2, BDBR_GPS)
+BDBR_GPS_Flooded = BDBR_GPS %>% filter(Flooded > 0)
 
 #-------------------------------------------------------------------------------
-
-## Map data
-# mapping
-cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7") # Color blind friendly palette
-scales::show_col(cbbPalette)
-
-pal <- colorNumeric(c("#FFFFCC", "#41B6C4", "#0C2C84"), values(flood_area_percent),
+pal2 <- colorNumeric(c("#FFFFCC", "#41B6C4", "#0C2C84"), values(flood_area_percent_mask_2),
                     na.color = "transparent")
 
+pal <- colorRampPalette(c("#FFFFCC", "#41B6C4", "#0C2C84"))
 
-map <- leaflet() %>% 
-  addProviderTiles(providers$Esri.WorldGrayCanvas,
-                   "Default") %>%
-  addProviderTiles(providers$Esri.NatGeoWorldMap,
-                   group = "National Geographic") %>%
-  addPolygons(data = BGD_Adm,
-              color = "black",
-              weight = 3,
-              fillOpacity = 0) %>%
-  #Exposure floods
-  addRasterImage(flood_area_percent, colors = pal, opacity = 0.5, project = FALSE, group = "Flood prone area") %>%
-  addLegend(pal = pal, values = values(flood_area_percent), title = "Percent flooded") %>%
-  
-  #DHS clusters
-  addCircles(data = BDBR_2004_GPS, color = "#E69F00", opacity = 0.8, group = "DHS clusters 2004") %>%
-  addCircles(data = BDBR_2007_GPS, color = "#56B4E9", opacity = 0.8, group = "DHS clusters 2007") %>%
-  addCircles(data = BDBR_2011_GPS, color = "#009E73", opacity = 0.8, group = "DHS clusters 2011") %>%
-  addCircles(data = BDBR_2014_GPS, color = "#0072B2", opacity = 0.8, group = "DHS clusters 2014") %>%
-  addCircles(data = BDBR_2017_GPS, color = "#D55E00", opacity = 0.8, group = "DHS clusters 2017") %>%
-  addLegend(colors = c("#E69F00", "#56B4E9", "#009E73", "#0072B2", "#D55E00"),
-            labels = c("DHS clusters 2004", "DHS clusters 2007", "DHS clusters 2011", "DHS clusters 2014", "DHS clusters 2017")) %>%
-  # Layers control
-  addLayersControl(
-    baseGroups = c("Default", "National Geographic"),
-    overlayGroups = c("DHS clusters 2004", "DHS clusters 2007", "DHS clusters 2011", "DHS clusters 2014", "DHS clusters 2017", "Flood prone area"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>%
-  hideGroup(c("DHS clusters 2004", "DHS clusters 2007", "DHS clusters 2011", "DHS clusters 2014", "DHS clusters 2017")) %>%
-  addScaleBar()
-
-map
+## Map data
+flood_area_percentPlot <- rasterVis::levelplot(flood_area_percent_mask_2, 
+                                                       margin = FALSE,                       
+                                                       colorkey = NULL,
+                                                       main = NULL,
+                                                       par.settings = list(
+                                                         axis.line = list(col = 'transparent') 
+                                                       ),
+                                                       xlab = NULL,
+                                                       ylab = NULL,
+                                                       scales = list(draw = FALSE),            
+                                                       col.regions = pal,
+                                                       at = seq(from = 0, to = 80, by = 1)
+) +
+  latticeExtra::layer(sp.polygons(BGD_Adm, lwd = 2))  
+# +   latticeExtra::layer(panel.text(90.3, 26.7, 'Percent number of flooded days (%)'))
 
 
+
+pdf(here("child-mortality-dhs/output/figures", "flood-area-percent-map.pdf"))
+gridExtra::grid.arrange(flood_area_percentPlot)
+dev.off()
+
+
+### DHS cluster locations
+dhs_cluster_plot <- rasterVis::levelplot(flood_area_percent_mask, 
+                                         margin = FALSE,                       
+                                         colorkey = FALSE,
+                                         main = NULL,
+                                         par.settings = list(
+                                           axis.line = list(col = 'transparent') 
+                                         ),
+                                         xlab = NULL,
+                                         ylab = NULL,
+                                         scales = list(draw = FALSE),            
+                                         col.regions = pal2,
+                                         at = seq(from = 0, to = 80, by = 1)
+) +
+  latticeExtra::layer(sp.polygons(BGD_Adm, lwd = 2, fill = "grey")) +
+  latticeExtra::layer(sp.points(as_Spatial(BDBR_GPS), pch = 19, cex = 0.3, col = "#FFFFCC")) +
+  latticeExtra::layer(sp.points(as_Spatial(BDBR_GPS_Flooded), pch = 19, cex = 0.3, col = "#41B6C4"))
+
+pdf(here("child-mortality-dhs/output/figures", "dhs-clusters-map.pdf"))
+dhs_cluster_plot
+dev.off() 
+
+# Arranged together
+pdf(here("child-mortality-dhs/output/figures", "figure-1-top.pdf"))
+gridExtra::grid.arrange(flood_area_percentPlot, dhs_cluster_plot,
+                        nrow = 1)
+dev.off()

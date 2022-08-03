@@ -6,17 +6,14 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 
 
 ## Load data
-monthly_time_series <- readRDS(file = here("data/final", "monthly_time_series"))
+monthly_time_series <- readRDS(file = here("data/final", "monthly_time_series_0_quartile"))
 
 ## Aggregate flooded vs non flooded
 monthly_time_series_qs_flooded_vs_non_flooded <- (monthly_time_series
                                                   %>% group_by(Birth_Date_Month_CMC, Flooded)
                                                   %>% summarise(Number_Of_Birth = sum(Number_Of_Birth, na.rm = T),
                                                                 Number_Of_Dead_Birth = sum(Number_Of_Dead_Birth, na.rm = T),
-                                                                Number_Of_Birth_QS = sum(Number_Of_Birth_QS, na.rm = T),
-                                                                Number_Of_Dead_Birth_QS = sum(Number_Of_Dead_Birth_QS, na.rm = T))
-                                                  %>% mutate(Infant_Mortality_Quarterly_Smoothed = Number_Of_Dead_Birth_QS/Number_Of_Birth_QS,
-                                                             Infant_Mortality = Infant_Mortality_Quarterly_Smoothed)
+                                                                Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth)
                                                   %>% ungroup()
                                                   %>% mutate(Year = 1900 + floor((Birth_Date_Month_CMC-1)/12),
                                                              Month = Birth_Date_Month_CMC - 12*(Year - 1900),
@@ -31,17 +28,18 @@ monthly_time_series_qs_flooded_vs_non_flooded <- (monthly_time_series
                                                   )
 
 monthly_birth_plot <- (monthly_time_series_qs_flooded_vs_non_flooded
-                       # %>% mutate(Infant_Mortality = Infant_Mortality_Season)
-                       %>% ggplot(aes(x = Birth_Date_Month_CMC, y = 100*Infant_Mortality, group = Flooded, col = Flooded))
+                       %>% mutate(Infant_Mortality = Infant_Mortality_Season)
+                       %>% filter(Month %in% c(1,7))
+                       %>% ggplot(aes(x = Birth_Date_Month_CMC, y = 100*Infant_Mortality, group = Flooded, col = Flooded, shape = Season))
                        + geom_point()
                        # + geom_smooth(method = "lm", se = F)
                        # + geom_line()
-                       + geom_smooth(se = T, span = 0.08)
+                       + geom_smooth(se = F, span = 0.1)
                        + scale_x_continuous(breaks = seq(1063, 1411, by = 12), labels = paste("July", 1988:2017))
                        # + xlim(c(1135, 1291))
-                       + ylim(c(0,15))
-                       + geom_vline(xintercept = 1291) # July 2007
-                       + geom_vline(xintercept = 1255) # July 2004
+                       + ylim(c(0,10))
+                       # + geom_vline(xintercept = 1291) # July 2007
+                       # + geom_vline(xintercept = 1255) # July 2004
                        + xlab("Date")
                        + ylab("Infant mortality (%)")
                        + theme(axis.text.x = element_text(angle = 30))

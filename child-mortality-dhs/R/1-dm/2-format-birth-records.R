@@ -61,36 +61,90 @@ flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
 #-------------------------------------------------------------------------------
 
 ## Process data
-# Collate birth record across DHS datasets
-BDBR <- rbind_labelled(BDBR_2017 %>% ### Warning points out labels may differ across surveys. Not a problem since women are matched within surveys
-                dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
+# Collate birth record across DHS datasets replacing values by their labels with to_factor
+BDBR <- rbind_labelled(BDBR_2017 %>%
+                mutate(v106 = as.character(to_factor(v106)),
+                       v190 = as.character(to_factor(v190)),
+                       v025 = as.character(to_factor(v025)),
+                       v113 = as.character(to_factor(v113)),
+                       v116 = as.character(to_factor(v116)),
+                       v127 = as.character(to_factor(v127)),
+                       v128 = as.character(to_factor(v128)),
+                       v129 = as.character(to_factor(v129)),
+                       v160 = as.character(to_factor(v160))) %>%
+                  dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
                               caseid, v011, v106, v190, v201, v212,
                               v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2018),
               BDBR_2014 %>%
+                mutate(v106 = as.character(to_factor(v106)),
+                       v190 = as.character(to_factor(v190)),
+                       v025 = as.character(to_factor(v025)),
+                       v113 = as.character(to_factor(v113)),
+                       v116 = as.character(to_factor(v116)),
+                       v127 = as.character(to_factor(v127)),
+                       v128 = as.character(to_factor(v128)),
+                       v129 = as.character(to_factor(v129)),
+                       v160 = as.character(to_factor(v160))) %>%
                 dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
                               caseid, v011, v106, v190, v201, v212,
                               v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2014),
               BDBR_2011 %>%
+                mutate(v106 = as.character(to_factor(v106)),
+                       v190 = as.character(to_factor(v190)),
+                       v025 = as.character(to_factor(v025)),
+                       v113 = as.character(to_factor(v113)),
+                       v116 = as.character(to_factor(v116)),
+                       v127 = as.character(to_factor(v127)),
+                       v128 = as.character(to_factor(v128)),
+                       v129 = as.character(to_factor(v129)),
+                       v160 = as.character(to_factor(v160))) %>%
                 dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
                               caseid, v011, v106, v190, v201, v212,
                               v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2011),
               BDBR_2007 %>%
+                mutate(v106 = as.character(to_factor(v106)),
+                       v190 = as.character(to_factor(v190)),
+                       v025 = as.character(to_factor(v025)),
+                       v113 = as.character(to_factor(v113)),
+                       v116 = as.character(to_factor(v116)),
+                       v127 = as.character(to_factor(v127)),
+                       v128 = as.character(to_factor(v128)),
+                       v129 = as.character(to_factor(v129)),
+                       v160 = as.character(to_factor(v160))) %>%
                 dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
                               caseid, v011, v106, v190, v201, v212,
                               v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2007),
               BDBR_2004 %>%
-                mutate(v160 = 99) %>% 
+                mutate(v160 = 2004) %>%  #Input toilets shared. Actual value doesn't matter as matching happens within survey wave
+                mutate(v106 = as.character(to_factor(v106)),
+                       v190 = as.character(to_factor(v190)),
+                       v025 = as.character(to_factor(v025)),
+                       v113 = as.character(to_factor(v113)),
+                       v116 = as.character(to_factor(v116)),
+                       v127 = as.character(to_factor(v127)),
+                       v128 = as.character(to_factor(v128)),
+                       v129 = as.character(to_factor(v129)),
+                       v160 = as.character(to_factor(v160))) %>%
                 dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
                               caseid, v011, v106, v190, v201, v212,
                               v025, v113, v116, v127, v128, v129, v160) %>%
                 mutate(DHSYEAR = 2004),
               BDBR_1999 %>%
-                mutate(v160 = 99,
-                       v190 = 99) %>% #Input wealth index for 1999 survey wave. Actual value doesn't matter as matching happens within survey wave
+                mutate(v160 = 1999, #Input toilets shared. Actual value doesn't matter as matching happens within survey wave
+                       v190 = 1999) %>% #Input wealth index for 1999 survey wave. Actual value doesn't matter as matching happens within survey wave
+                mutate(v106 = as.character(to_factor(v106)),
+                       v190 = as.character(to_factor(v190)),
+                       v025 = as.character(to_factor(v025)),
+                       v113 = as.character(to_factor(v113)),
+                       v116 = as.character(to_factor(v116)),
+                       v127 = as.character(to_factor(v127)),
+                       v128 = as.character(to_factor(v128)),
+                       v129 = as.character(to_factor(v129)),
+                       v160 = as.character(to_factor(v160))) %>%
                 dplyr::select(b3, b7, DHSCLUST = v001, v005, v104, b0,
                               caseid, v011, v106, v190, v201, v212,
                               v025, v113, v116, v127, v128, v129, v160) %>%
@@ -122,13 +176,16 @@ birth_records_formated <-
             Birth_Date_Month_CMC = b3,
             Twin_Birth = b0,
             Region = toupper(ADM1NAME),
-            Region = ifelse(test = Region == "MYMENSINGH",
+            Region = ifelse(test = Region == "MYMENSINGH", # New division not present in earlier survey
                             yes = "DHAKA",
+                            no = Region),
+            Region = ifelse(test = Region == "RAJASHAHI", # Typo
+                            yes = "RAJSHAHI",
                             no = Region),
             LATNUM = replace(LATNUM, LATNUM == 0, NA),
             LONGNUM = replace(LONGNUM, LONGNUM == 0, NA),
             Years_Lived_In_Place_Of_Residence = v104,
-            Women_Sampling_Weight = v005,
+            Women_Sampling_Weight = v005/1000000,
             Birth_Date_Mother_Month_CMC = v011,
             Highest_Level_Education = v106,
             Wealth_Index = v190,
@@ -158,7 +215,7 @@ birth_records_formated <-
                    Wealth_Index,
                    Total_Children,
                    Age_Mother_First_Birth_Years,
-                   Type_Of_Place_Of_Residence,
+                   # Type_Of_Place_Of_Residence, # Redundant with URBAN_RURA
                    Source_Of_Drinking_Water,
                    Type_Of_Toilet_Facility,
                    Main_Floor_Material,
