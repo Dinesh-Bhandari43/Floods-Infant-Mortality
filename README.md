@@ -22,8 +22,11 @@ All data used in the analysis is publicly available but access must be granted b
 All analyses were run using R software version 4.1.1 on Mac OSX Big Sur using the RStudio IDE (https://www.rstudio.com).
 
 > sessionInfo()
+
 R version 4.1.3 (2022-03-10)
+
 Platform: x86_64-apple-darwin17.0 (64-bit)
+
 Running under: macOS Monterey 12.4
 
 ### Installation Guide
