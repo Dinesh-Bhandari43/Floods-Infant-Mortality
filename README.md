@@ -45,13 +45,15 @@ To reproduce all analyses in the paper, we recommend that you:
 
 1. clone the GitHub repository
 
-2. Create a `data` directory with 3 subdirectories : `untouched`, `temp` and `final`.
+2. Create a `data` directory with 3 subdirectories: `untouched`, `temp` and `final`.
 
 3. In the `data/untouched` directory copy and paste repository from OSF: https://osf.io/vrfmz/files/osfstorage
 
 4. In the `data/untouched/dhs` directory paste downloaded DHS data. You should have 6 subdirectories: `BD_1999-00_DHS_03072022_1129_172978`, `BD_2004_DHS_02032022_1033_172978`, `BD_2007_DHS_02032022_1033_172978`, `BD_2011_DHS_02032022_1032_172978`, `BD_2014_DHS_02082022_855_172978` and `BD_2017-18_DHS_02082022_855_172978`
 
-5. All of the analysis scripts should run smoothly. 
+5. Create `child-mortality-dhs\output` directory with 2 subdirectories: `figures` and `matching`
+
+6. All of the analysis scripts should run smoothly. 
 
 Running the all analyses on the above Mac laptop configuration required ~1h. 
 
