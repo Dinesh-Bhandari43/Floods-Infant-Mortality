@@ -5,7 +5,7 @@ Research projects assessing impacts of flooding on health in Bangladesh
 
 This repository includes R code to run all of the analysis for the paper:
 
-Excess risk in infant mortality among populations living in flood prone areas in Bangladesh: A cluster-matched cohort study over three decades, 1988-2017
+"Excess risk in infant mortality among populations living in flood prone areas in Bangladesh: A cluster-matched cohort study over three decades, 1988-2017"
 
 Rerolle, F., Arnold, B. F., Benmarhnia, T.
 
