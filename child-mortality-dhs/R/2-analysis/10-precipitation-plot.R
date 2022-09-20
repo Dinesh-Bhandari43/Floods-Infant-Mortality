@@ -55,7 +55,7 @@ precipitation_plot <- (BGD_chirps %>%
 precipitation_plot
 
 ### Save
-pdf(here("child-mortality-dhs/output/figures", "precipitation_plot.pdf"))
+pdf(here("child-mortality-dhs/output/figures", "precipitation-plot.pdf"))
 precipitation_plot
 dev.off()
 

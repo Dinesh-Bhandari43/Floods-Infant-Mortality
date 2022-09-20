@@ -3,7 +3,7 @@
 # @Organization - UCSF
 # @Project - Effects of floods on child mortality in Bangladesh
 # @Author - Francois Rerolle, rerollefrancois@gmail.com
-# @Description - This code runs the models to estimate effects (RR) of
+# @Description - This code runs the models to estimate effects (OR) of
 # living in flood prone area on infant mortality at the individual level
 
 #-------------------------------------------------------------------------------

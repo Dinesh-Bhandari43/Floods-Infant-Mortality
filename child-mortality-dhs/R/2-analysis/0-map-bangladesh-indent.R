@@ -1,4 +1,11 @@
-# DHS Bangladesh exploration
+#-------------------------------------------------------------------------------
+
+# @Organization - UCSF
+# @Project - Effects of floods on child mortality in Bangladesh
+# @Author - Francois Rerolle, rerollefrancois@gmail.com
+# @Description - This code producs the study region leaflet indent for figure 1
+
+#-------------------------------------------------------------------------------
 
 library(here)
 
@@ -7,7 +14,7 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 #-------------------------------------------------------------------------------
 
 ## Load data
-# Bangladesh admin
+# Countries admin
 BGD_Adm <- raster::getData("GADM",
                            country = "BGD",
                            level = 0,
@@ -71,8 +78,6 @@ scales::show_col(cbbPalette)
 
 
 ### Less colourful
-
-
 map <- leaflet() %>%
   addProviderTiles(providers$Thunderforest.Transport) %>%
   addPolygons(data = sps2,

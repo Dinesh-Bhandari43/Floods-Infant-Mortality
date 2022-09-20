@@ -71,6 +71,7 @@ flood_area_duration <- (
   flood_aug_2017_cropped$duration
   )
 
+
 # Calculate maximum possible number of days flooded
 max_flood_duration <- (
   max(flood_jun_2002_cropped$duration[], na.rm = T) +

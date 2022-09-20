@@ -80,7 +80,7 @@ monthly_time_series_plot <- (ggplot()
                              # + geom_vline(xintercept = 1291) # July 2007
                              # + geom_vline(xintercept = 1255) # July 2004
                              + xlab("Seasons 1988-2017")
-                             + ylab("Infant mortality rate (per 1000 birth)")
+                             + ylab("Infant mortality rate (per 1000 births)")
                              + theme(legend.title = element_blank(),
                                      legend.text = element_text(size = 16),
                                      panel.background = element_blank(),
@@ -108,6 +108,10 @@ monthly_time_series_plot <- (ggplot()
 monthly_time_series_plot
 
 ### Save
-pdf(here("child-mortality-dhs/output/figures", "infant_mortality_time_series.pdf"))
+pdf(here("child-mortality-dhs/output/figures", "infant-mortality-time-series.pdf"))
+monthly_time_series_plot
+dev.off()
+
+jpeg(here("child-mortality-dhs/output/figures", "infant-mortality-time-series.jpeg"), quality = 100)
 monthly_time_series_plot
 dev.off()

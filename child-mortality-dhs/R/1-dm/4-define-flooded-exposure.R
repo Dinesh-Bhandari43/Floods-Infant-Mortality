@@ -17,19 +17,23 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 ## Load data
 birth_records <- readRDS(file = here("data/final", "birth_records"))
 
+# Bangladesh admin
+BGD_Adm <- raster::getData("GADM",
+                           country = "BGD",
+                           level = 0,
+                           path = here("data/untouched/country-admin"))
+
+# Flood
+flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
+flood_area_percent_mask <- raster::mask(flood_area_percent, BGD_Adm)
+
 #-------------------------------------------------------------------------------
 
 ## Process data
-# Restrict dataset to unique flooded mothers
-mother_records <- 
-  (birth_records %>%
-     dplyr::select(-c(Birth_Date_Month_CMC, Age_At_Death_Months)) %>%
-     distinct(DHSCLUST, DHSYEAR, caseid, .keep_all = T) %>%
-     filter(Flood_Prone_Percent > 0)
-  )
-
-# Assess distribution of flooded_prone_percent among flooded mothers
-quartiles_flood_percent <- quantile(mother_records$Flood_Prone_Percent)
+# Identify quartiles of distribution among flooded pixels
+mean(flood_area_percent_mask[]>0, na.rm = T) # Percent of country classified in flood prone area
+flood_area_percent_among_flooded_area <- flood_area_percent_mask[which(flood_area_percent_mask[] > 0)]
+quartiles_flood_percent <- quantile(flood_area_percent_among_flooded_area)
 
 # Define flooded exposure
 birth_records_flooded <- 

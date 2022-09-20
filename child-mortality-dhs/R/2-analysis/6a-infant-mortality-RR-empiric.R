@@ -25,7 +25,7 @@ monthly_time_series_list <- list(monthly_time_series_0_quartile,
                                  monthly_time_series_2_quartile,
                                  monthly_time_series_3_quartile)
 
-## Merge to precipitation data
+## Aggregate per Season
 monthly_time_series_list_2 <-
   lapply(X = monthly_time_series_list,
          FUN = function(x){
@@ -41,7 +41,6 @@ monthly_time_series_list_2 <-
                        New_Season = replace(New_Season, is.na(New_Season), FALSE),
                        Grouping_Season = cumsum(New_Season))
             %>% group_by(Flooded, Grouping_Season)
-            # %>% group_by(Flooded, Season, Decade)  # Variant to aggregate for decade season
             %>% summarise(Number_Of_Dead_Birth = sum(Number_Of_Dead_Birth),
                        Number_Of_Birth = sum(Number_Of_Birth))
             )

@@ -51,11 +51,15 @@ data_plot_RD <- (data %>%
                 scale_color_manual(labels = c("Overall", "Rainy", "Dry"),
                                    values = c("black", "#56B4E9", "#E69F00")) +
                 ylab("Risk difference\n(per 1000 births)") +
-                theme(legend.position = "right",
+                theme(legend.position = "top",
                       panel.grid.major.x = element_blank(),
                       strip.background = element_blank(),
                       strip.text.x = element_blank(),
                       axis.ticks = element_blank(),
+                      axis.title = element_text(size = 16),
+                      axis.text = element_text(size = 14),
+                      legend.title = element_text(size = 14),
+                      legend.text = element_text(size = 12),
                       axis.title.x = element_blank())
 )
 
@@ -81,6 +85,10 @@ data_plot_RD_exposure <- (data %>%
                          strip.background = element_blank(),
                          strip.text.x = element_blank(),
                          axis.ticks = element_blank(),
+                         axis.title = element_text(size = 16),
+                         axis.text = element_text(size = 12),
+                         legend.title = element_text(size = 12),
+                         legend.text = element_text(size = 10),
                          axis.title.x = element_blank())
 )
 
@@ -105,6 +113,10 @@ data_plot_RR <- (data %>%
                          strip.background = element_blank(),
                          strip.text.x = element_blank(),
                          axis.ticks = element_blank(),
+                         axis.title = element_text(size = 16),
+                         axis.text = element_text(size = 14),
+                         legend.title = element_text(size = 14),
+                         legend.text = element_text(size = 12),
                          axis.title.x = element_blank())
 )
 
@@ -132,6 +144,10 @@ data_plot_OR <- (data %>%
                          strip.background = element_blank(),
                          strip.text.x = element_blank(),
                          axis.ticks = element_blank(),
+                         axis.title = element_text(size = 16),
+                         axis.text = element_text(size = 12),
+                         legend.title = element_text(size = 12),
+                         legend.text = element_text(size = 10),
                          axis.title.x = element_blank())
 )
 

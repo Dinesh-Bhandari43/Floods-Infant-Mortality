@@ -33,10 +33,10 @@ mother_records <- (mother_records %>%
                                                 labels = c("No education", "Primary", "Secondary", "Higher")),
                             Wealth_Index = factor(Wealth_Index,
                                                              levels = c("poorest", "poorer", "middle", "richer", "richest", "1999"),
-                                                             labels = c("Poorest", "Poorer", "Middle", "Richer", "Richest", "Not asked in 1999 survey<sup>1</sup>")),
+                                                             labels = c("Poorest", "Poorer", "Middle", "Richer", "Richest", "Not measured in 1999 survey<sup>1</sup>")),
                             Toilets_Facilities_Shared_Other_HH = factor(Toilets_Facilities_Shared_Other_HH,
                                                   levels = c("no", "yes", "1999", "2004"),
-                                                  labels = c("No", "Yes", "Not asked in 1999 and 2004 surveys<sup>1</sup>", "Not asked in 1999 and 2004 surveys<sup>1</sup>"))
+                                                  labels = c("No", "Yes", "Not measured in 1999 and 2004 surveys<sup>1</sup>", "Not measured in 1999 and 2004 surveys<sup>1</sup>"))
                             )
                    )
 

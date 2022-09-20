@@ -116,7 +116,7 @@ birth_records_4 <- (birth_records_3 %>%
                             Type_Of_Toilet_Facility = replace(Type_Of_Toilet_Facility,
                                                               Type_Of_Toilet_Facility %in% c("no facility, bush",
                                                                                              "no facility/bush/field"),
-                                                              "Unimproved") # Used to be "Open defecation"
+                                                              "Unimproved") # Used to be "Open defecation". I decided to reduce categories to 2
                             ) %>%
                       mutate(
                         Main_Floor_Material = replace(Main_Floor_Material,

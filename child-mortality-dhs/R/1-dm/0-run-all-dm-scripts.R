@@ -3,7 +3,7 @@
 # @Organization - UCSF
 # @Project - Effects of floods on child mortality in Bangladesh
 # @Author - Francois Rerolle, rerollefrancois@gmail.com
-# @Description - This code runs all data mangement scripts
+# @Description - This code runs all data management scripts (except precipitation extraction which is kept seperated)
 
 #-------------------------------------------------------------------------------
 
