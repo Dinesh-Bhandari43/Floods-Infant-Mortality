@@ -15,7 +15,7 @@ Should you have any questions about the files in this repository, please contact
 
 ### Open Science Framework 
 
-All data used in the analysis is publicly available but access must be granted by the DHS program for the 6 population surveys conducted in Bangladesh (2017, 2014, 2011, 2007, 2004, 1999). When requesting data, include GPS coordinates and spatial covariates data. The other data are deposited on OSF: https://osf.io/vrfmz/files/osfstorage
+All data used in the analysis is publicly available but access must be granted by the DHS program for the 6 population surveys conducted in Bangladesh (2017, 2014, 2011, 2007, 2004, 1999). When requesting data, include GPS coordinates and spatial covariates data. The other data are deposited on OSF: https://osf.io/vrfmz/
 
 ### System Requirements
 
