@@ -5,6 +5,8 @@
 # @Author - Francois Rerolle, rerollefrancois@gmail.com
 # @Description - This code translates estimates of excess risk into estimates
 # of excess mortality combining population data and average birth rates
+# In addition, following PNAS reviews, it assesses how prop of pop living in
+# flood prone areas changed over time
 
 #-------------------------------------------------------------------------------
 
@@ -230,7 +232,7 @@ upzilla_bar_plot <- (tibble(Upzilla = BGD_Adm_2$NAME_2,
 
 upzilla_bar_plot
 
-### Population propotion in flood prone area over time
+### Population proportion in flood prone area over time
 data_population_prop_flood_prone <- tibble(Year = 2000:2020,
                                            `Percent population living in flood prone area` = 100*c(sum(worldpop2000_mask[]*(flood_area_agg_mask[] > 0), na.rm = T)/sum(worldpop2000_mask[], na.rm = T),
                                                                                                    sum(worldpop2001_mask[]*(flood_area_agg_mask[] > 0), na.rm = T)/sum(worldpop2001_mask[], na.rm = T),
