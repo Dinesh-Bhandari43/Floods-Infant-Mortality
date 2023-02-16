@@ -24,12 +24,12 @@ BGD_Adm <- raster::getData("GADM",
 flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
 flood_area_percent_mask <- raster::mask(flood_area_percent, BGD_Adm)
 
-mean(flood_area_percent_mask[]>0, na.rm = T)
-x <- 100*flood_area_percent_mask[which(flood_area_percent_mask[] > 0)]
-y <- density(x, n = 2^12)
+mean(flood_area_percent_mask[]>0, na.rm = T) # Percent of country classified in flood prone area
+flood_area_percent_among_flooded_area <- 100*flood_area_percent_mask[which(flood_area_percent_mask[] > 0)]
+y <- density(flood_area_percent_among_flooded_area, n = 2^12)
 
 data <- data.frame(percent = y$x, Density = y$y)
-quartiles <- quantile(x)
+quartiles <- quantile(flood_area_percent_among_flooded_area)
 
 # Prepare
 data.label.quartile <- data.frame(quartile = c(quartiles[2:4]),
@@ -78,7 +78,7 @@ percent_area_flooded_distribution <- ggplot() +
   scale_x_continuous(breaks = seq(0, 80, by = 10)) +
   scale_color_gradient2(low = "#FFFFCC", mid="#41B6C4", high = "#0C2C84",
                         midpoint=40) +
-  xlab("Percent number of flooded days (%)") +
+  xlab("Percentage of days flooded (%)") +
   coord_cartesian(clip = "off") +
   theme(legend.position = "none",
         panel.background = element_blank(),

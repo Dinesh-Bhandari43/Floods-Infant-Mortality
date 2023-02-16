@@ -71,6 +71,7 @@ flood_area_duration <- (
   flood_aug_2017_cropped$duration
   )
 
+
 # Calculate maximum possible number of days flooded
 max_flood_duration <- (
   max(flood_jun_2002_cropped$duration[], na.rm = T) +
@@ -86,10 +87,250 @@ max_flood_duration <- (
 # Extract percent of flooded days out of possible flooded days
 flood_area_percent <- flood_area_duration / max_flood_duration
 
+# Number of flooded event
+flood_frequency <- (flood_jun_2002_cropped$flooded +
+                      flood_jun_2003_cropped$flooded +
+                      flood_jul_2004_cropped$flooded +
+                      flood_jul_2007_cropped$flooded +
+                      flood_jul_2010_cropped$flooded +
+                      flood_oct_2010_cropped$flooded +
+                      # flood_jul_2016_cropped$flooded + # Missing data near confluence of bay
+                      flood_aug_2017_cropped$flooded
+                    )
+
+
 #-------------------------------------------------------------------------------
 
 # Save dataset
 saveRDS(flood_area_percent,
         file = here("data/final", "flood_area_percent"))
+
+saveRDS(flood_frequency,
+        file = here("data/final", "flood_frequency"))
+
+#-------------------------------------------------------------------------------
+
+
+#-------------------------------------------------------------------------------
+## PNAS revision: leave one out analysis
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2002 <- (
+  # flood_jun_2002_cropped$duration +
+    flood_jun_2003_cropped$duration +
+    flood_jul_2004_cropped$duration +
+    flood_jul_2007_cropped$duration +
+    flood_jul_2010_cropped$duration +
+    flood_oct_2010_cropped$duration +
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2002 <- (
+  # max(flood_jun_2002_cropped$duration[], na.rm = T) +
+    max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    max(flood_oct_2010_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2002 <- flood_area_duration_loo_2002 / max_flood_duration_loo_2002
+
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2003 <- (
+  flood_jun_2002_cropped$duration +
+  # flood_jun_2003_cropped$duration +
+    flood_jul_2004_cropped$duration +
+    flood_jul_2007_cropped$duration +
+    flood_jul_2010_cropped$duration +
+    flood_oct_2010_cropped$duration +
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2003 <- (
+  max(flood_jun_2002_cropped$duration[], na.rm = T) +
+  # max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    max(flood_oct_2010_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2003 <- flood_area_duration_loo_2003 / max_flood_duration_loo_2003
+
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2004 <- (
+  flood_jun_2002_cropped$duration +
+    flood_jun_2003_cropped$duration +
+    # flood_jul_2004_cropped$duration +
+    flood_jul_2007_cropped$duration +
+    flood_jul_2010_cropped$duration +
+    flood_oct_2010_cropped$duration +
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2004 <- (
+  max(flood_jun_2002_cropped$duration[], na.rm = T) +
+    max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    max(flood_oct_2010_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2004 <- flood_area_duration_loo_2004 / max_flood_duration_loo_2004
+
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2007 <- (
+  flood_jun_2002_cropped$duration +
+    flood_jun_2003_cropped$duration +
+    flood_jul_2004_cropped$duration +
+    # flood_jul_2007_cropped$duration +
+    flood_jul_2010_cropped$duration +
+    flood_oct_2010_cropped$duration +
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2007 <- (
+  max(flood_jun_2002_cropped$duration[], na.rm = T) +
+    max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    max(flood_oct_2010_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2007 <- flood_area_duration_loo_2007 / max_flood_duration_loo_2007
+
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2010 <- (
+  flood_jun_2002_cropped$duration +
+    flood_jun_2003_cropped$duration +
+    flood_jul_2004_cropped$duration +
+    flood_jul_2007_cropped$duration +
+    # flood_jul_2010_cropped$duration +
+    flood_oct_2010_cropped$duration +
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2010 <- (
+  max(flood_jun_2002_cropped$duration[], na.rm = T) +
+    max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    max(flood_oct_2010_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2010 <- flood_area_duration_loo_2010 / max_flood_duration_loo_2010
+
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2010b <- (
+  flood_jun_2002_cropped$duration +
+    flood_jun_2003_cropped$duration +
+    flood_jul_2004_cropped$duration +
+    flood_jul_2007_cropped$duration +
+    flood_jul_2010_cropped$duration +
+    # flood_oct_2010_cropped$duration +
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2010b <- (
+  max(flood_jun_2002_cropped$duration[], na.rm = T) +
+    max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    # max(flood_oct_2010_cropped$duration[], na.rm = T) +
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2010b <- flood_area_duration_loo_2010b / max_flood_duration_loo_2010b
+
+# Append together to create layer of total number of days flooded
+flood_area_duration_loo_2017 <- (
+  flood_jun_2002_cropped$duration +
+    flood_jun_2003_cropped$duration +
+    flood_jul_2004_cropped$duration +
+    flood_jul_2007_cropped$duration +
+    flood_jul_2010_cropped$duration +
+    flood_oct_2010_cropped$duration
+    # flood_jul_2016_cropped$duration + # Missing data near confluence of bay
+    # flood_aug_2017_cropped$duration
+)
+
+
+# Calculate maximum possible number of days flooded
+max_flood_duration_loo_2017 <- (
+  max(flood_jun_2002_cropped$duration[], na.rm = T) +
+    max(flood_jun_2003_cropped$duration[], na.rm = T) +
+    max(flood_jul_2004_cropped$duration[], na.rm = T) +
+    max(flood_jul_2007_cropped$duration[], na.rm = T) +
+    max(flood_jul_2010_cropped$duration[], na.rm = T) +
+    max(flood_oct_2010_cropped$duration[], na.rm = T)
+    # max(flood_jul_2016_cropped$duration[], na.rm = T) +
+    # max(flood_aug_2017_cropped$duration[], na.rm = T)
+)
+
+# Extract percent of flooded days out of possible flooded days
+flood_area_percent_loo_2017 <- flood_area_duration_loo_2017 / max_flood_duration_loo_2017
+
+
+#-------------------------------------------------------------------------------
+# Save dataset
+saveRDS(flood_area_percent_loo_2017,
+        file = here("data/final", "flood_area_percent_loo_2017"))
+
+saveRDS(flood_area_percent_loo_2010b,
+        file = here("data/final", "flood_area_percent_loo_2010b"))
+
+saveRDS(flood_area_percent_loo_2010,
+        file = here("data/final", "flood_area_percent_loo_2010"))
+
+saveRDS(flood_area_percent_loo_2007,
+        file = here("data/final", "flood_area_percent_loo_2007"))
+
+saveRDS(flood_area_percent_loo_2004,
+        file = here("data/final", "flood_area_percent_loo_2004"))
+
+saveRDS(flood_area_percent_loo_2003,
+        file = here("data/final", "flood_area_percent_loo_2003"))
+
+saveRDS(flood_area_percent_loo_2002,
+        file = here("data/final", "flood_area_percent_loo_2002"))
 
 #-------------------------------------------------------------------------------

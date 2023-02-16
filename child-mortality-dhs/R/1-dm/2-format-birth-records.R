@@ -15,6 +15,10 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 #-------------------------------------------------------------------------------
 
 ## Load data
+# Flood area
+flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
+flood_frequency <- readRDS(here("data/final", "flood_frequency"))
+
 # DHS birth records
 BDBR_2017 <- read_dta(here("data/untouched/dhs",
                            "BD_2017-18_DHS_02082022_855_172978/BDBR7RDT",
@@ -54,9 +58,6 @@ BDBR_2004_GPS <- st_read(here("data/untouched/dhs",
 BDBR_1999_GPS <- st_read(here("data/untouched/dhs",
                               "BD_1999-00_DHS_03072022_1129_172978/BDGE42FL",
                               "BDGE42FL.shp"))
-
-# Flood area
-flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
 
 #-------------------------------------------------------------------------------
 
@@ -164,6 +165,9 @@ BDBR_GPS <- rbind(BDBR_2017_GPS,
 BDBR_GPS$Flood_Prone_Percent <- raster::extract(x = flood_area_percent,
                                                 y = BDBR_GPS)
 
+BDBR_GPS$Flood_Frequency <- raster::extract(x = flood_frequency,
+                                                y = BDBR_GPS)
+
 # Merge
 BDBR_Flood <- (BDBR %>% left_join(BDBR_GPS))
 
@@ -222,7 +226,8 @@ birth_records_formated <-
                    Main_Wall_Material,
                    Main_Roof_Material,
                    Toilets_Facilities_Shared_Other_HH,
-                   Flood_Prone_Percent))
+                   Flood_Prone_Percent,
+                   Flood_Frequency))
 
 #-------------------------------------------------------------------------------
 

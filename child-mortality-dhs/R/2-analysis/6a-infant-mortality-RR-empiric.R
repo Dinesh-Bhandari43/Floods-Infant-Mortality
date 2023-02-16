@@ -20,12 +20,27 @@ monthly_time_series_1_quartile <- readRDS(file = here("data/final", "monthly_tim
 monthly_time_series_2_quartile <- readRDS(file = here("data/final", "monthly_time_series_2_quartile"))
 monthly_time_series_3_quartile <- readRDS(file = here("data/final", "monthly_time_series_3_quartile"))
 
+monthly_time_series_1_frequency <- readRDS(file = here("data/final", "monthly_time_series_1_frequency"))
+monthly_time_series_2_frequency <- readRDS(file = here("data/final", "monthly_time_series_2_frequency"))
+monthly_time_series_3_frequency <- readRDS(file = here("data/final", "monthly_time_series_3_frequency"))
+monthly_time_series_4_frequency <- readRDS(file = here("data/final", "monthly_time_series_4_frequency"))
+monthly_time_series_5_frequency <- readRDS(file = here("data/final", "monthly_time_series_5_frequency"))
+monthly_time_series_6_frequency <- readRDS(file = here("data/final", "monthly_time_series_6_frequency"))
+monthly_time_series_7_frequency <- readRDS(file = here("data/final", "monthly_time_series_7_frequency"))
+
 monthly_time_series_list <- list(monthly_time_series_0_quartile,
                                  monthly_time_series_1_quartile,
                                  monthly_time_series_2_quartile,
-                                 monthly_time_series_3_quartile)
+                                 monthly_time_series_3_quartile,
+                                 monthly_time_series_1_frequency,
+                                 monthly_time_series_2_frequency,
+                                 monthly_time_series_3_frequency,
+                                 monthly_time_series_4_frequency,
+                                 monthly_time_series_5_frequency,
+                                 monthly_time_series_6_frequency,
+                                 monthly_time_series_7_frequency)
 
-## Merge to precipitation data
+## Aggregate per Season
 monthly_time_series_list_2 <-
   lapply(X = monthly_time_series_list,
          FUN = function(x){
@@ -41,7 +56,6 @@ monthly_time_series_list_2 <-
                        New_Season = replace(New_Season, is.na(New_Season), FALSE),
                        Grouping_Season = cumsum(New_Season))
             %>% group_by(Flooded, Grouping_Season)
-            # %>% group_by(Flooded, Season, Decade)  # Variant to aggregate for decade season
             %>% summarise(Number_Of_Dead_Birth = sum(Number_Of_Dead_Birth),
                        Number_Of_Birth = sum(Number_Of_Birth))
             )
@@ -65,9 +79,23 @@ RR_flooded_vs_non_flooded_tb <- rbind(RR_flooded_vs_non_flooded_tb_quartile %>%
                                       RR_flooded_vs_non_flooded_tb_quartile %>%
                                         mutate(Exposure = "2 quartile"),
                                       RR_flooded_vs_non_flooded_tb_quartile %>%
-                                        mutate(Exposure = "3 quartile"))
+                                        mutate(Exposure = "3 quartile"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "1 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "2 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "3 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "4 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "5 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "6 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "7 frequency"))
 
-for (j in 1:4){
+for (j in 1:11){
   for (i in 1:60){
     data <- monthly_time_series_list_2[[j]]
     RR_flooded_vs_non_flooded_tb$RR_log_empiric[i + (j-1)*60] <- log((data$Number_Of_Dead_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]/data$Number_Of_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) /

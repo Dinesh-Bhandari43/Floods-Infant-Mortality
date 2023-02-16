@@ -32,6 +32,7 @@ mother_records_1 <-
   (mother_records_0 %>%
      mutate(DHSYEAR = factor(DHSYEAR)) %>%
      dplyr::select(c(Flooded_0_quartile, Flooded_1_quartile, Flooded_2_quartile, Flooded_3_quartile,
+                     Flooded_1_Frequency, Flooded_2_Frequency, Flooded_3_Frequency, Flooded_4_Frequency, Flooded_5_Frequency, Flooded_6_Frequency, Flooded_7_Frequency,
                      Region, DHSYEAR, caseid,
                     URBAN_RURA, 
                      Birth_Date_Mother_Month_CMC, Highest_Level_Education,

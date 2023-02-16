@@ -30,7 +30,7 @@ data <- (RD_flooded_vs_non_flooded_tb_empiric %>%
                   Decade = replace(Decade, Decade == 1, "1998-2007"),
                   Decade = replace(Decade, Decade == 2, "2008-2017"),
                   Subgroup = paste(Season, Decade),
-                  Year = rep(rep(1988:2017, each = 2), 4))
+                  Year = rep(rep(1988:2017, each = 2), 11))
          )
 
 #-------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ decade.data <- c("1988-1997", "1988-1997",
                  "1988-2017", "1988-2017",
                  "1988-2017")
 
-exposure.k <- c("0 quartile", "1 quartile", "2 quartile", "3 quartile")
+exposure.k <- c("0 quartile", "1 quartile", "2 quartile", "3 quartile", "1 frequency", "2 frequency", "3 frequency", "4 frequency", "5 frequency", "6 frequency", "7 frequency")
 
 TE <- NULL
 TE.lower <- NULL

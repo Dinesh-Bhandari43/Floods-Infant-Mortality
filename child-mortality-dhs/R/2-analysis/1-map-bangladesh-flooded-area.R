@@ -22,7 +22,7 @@ BGD_Adm <- raster::getData("GADM",
 
 # Flood
 flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
-flood_area_percent_mask <- mask(flood_area_percent, BGD_Adm)
+flood_area_percent_mask <- raster::mask(flood_area_percent, BGD_Adm)
 flood_area_percent_mask_2 <- 100*flood_area_percent_mask
 
 # Cluster' s GPS
@@ -60,7 +60,7 @@ pal2 <- colorNumeric(c("#FFFFCC", "#41B6C4", "#0C2C84"), values(flood_area_perce
                     na.color = "transparent")
 
 pal <- colorRampPalette(c("#FFFFCC", "#41B6C4", "#0C2C84"))
-
+colorlength <- 100
 ## Map data
 flood_area_percentPlot <- rasterVis::levelplot(flood_area_percent_mask_2, 
                                                        margin = FALSE,                       
@@ -73,7 +73,8 @@ flood_area_percentPlot <- rasterVis::levelplot(flood_area_percent_mask_2,
                                                        ylab = NULL,
                                                        scales = list(draw = FALSE),            
                                                        col.regions = pal,
-                                                       at = seq(from = 0, to = 80, by = 1)
+                                               # col.regions = plasma(n = colorlength, direction = -1),
+                                                       at = seq(from = 0, to = 80, length.out = colorlength)
 ) +
   latticeExtra::layer(sp.polygons(BGD_Adm, lwd = 2))  
 # +   latticeExtra::layer(panel.text(90.3, 26.7, 'Percent number of flooded days (%)'))
