@@ -26,6 +26,7 @@ matched_mothers_4_frequency <- readRDS(file = here("data/final", "matched_mother
 matched_mothers_5_frequency <- readRDS(file = here("data/final", "matched_mothers_5_frequency"))
 matched_mothers_6_frequency <- readRDS(file = here("data/final", "matched_mothers_6_frequency"))
 matched_mothers_7_frequency <- readRDS(file = here("data/final", "matched_mothers_7_frequency"))
+matched_mothers_flood_year <- readRDS(file = here("data/final", "matched_mothers_flood_year"))
 
 ## Filter to matched mothers only
 birth_records_flooded_0_quartile <- (birth_records_flooded %>%
@@ -112,6 +113,14 @@ birth_records_flooded_7_frequency <- (birth_records_flooded %>%
                                                Infant_Death = !(Age_At_Death_Months > 1 | is.na(Age_At_Death_Months)))
 )
 
+# PNAS revision 2
+birth_records_flooded_year <- (birth_records_flooded %>%
+                                        right_join(matched_mothers_flood_year %>%
+                                                     dplyr::select(caseid, weights, subclass)) %>%
+                                        mutate(Flooded = Flood_Year,
+                                               Infant_Death = !(Age_At_Death_Months > 1 | is.na(Age_At_Death_Months)))
+)
+
 #-------------------------------------------------------------------------------
 
 # Save dataset
@@ -150,5 +159,8 @@ saveRDS(birth_records_flooded_6_frequency,
 
 saveRDS(birth_records_flooded_7_frequency,
         file = here("data/final", "birth_records_flooded_7_frequency"))
+
+saveRDS(birth_records_flooded_year,
+        file = here("data/final", "birth_records_flooded_year"))
 
 #-------------------------------------------------------------------------------

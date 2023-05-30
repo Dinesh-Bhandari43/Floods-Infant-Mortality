@@ -28,6 +28,8 @@ birth_records_flooded_5_frequency <- readRDS(file = here("data/final", "birth_re
 birth_records_flooded_6_frequency <- readRDS(file = here("data/final", "birth_records_flooded_6_frequency"))
 birth_records_flooded_7_frequency <- readRDS(file = here("data/final", "birth_records_flooded_7_frequency"))
 
+birth_records_flooded_year <- readRDS(file = here("data/final", "birth_records_flooded_year"))
+
 #-------------------------------------------------------------------------------
 
 ## Process data
@@ -164,6 +166,18 @@ monthly_time_series_7_frequency <-
      ungroup()
   )
 
+#PNAS revision 2
+monthly_time_series_flood_year <- 
+  (birth_records_flooded_year %>%
+     mutate(index = 1) %>%
+     group_by(Birth_Date_Month_CMC, Flooded) %>%
+     summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+                                          na.rm = T)) %>%
+     mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
+     ungroup()
+  )
+
 
 #-------------------------------------------------------------------------------
 
@@ -203,6 +217,9 @@ saveRDS(monthly_time_series_6_frequency,
 
 saveRDS(monthly_time_series_7_frequency,
         file = here("data/final", "monthly_time_series_7_frequency"))
+
+saveRDS(monthly_time_series_flood_year,
+        file = here("data/final", "monthly_time_series_flood_year"))
 
 
 

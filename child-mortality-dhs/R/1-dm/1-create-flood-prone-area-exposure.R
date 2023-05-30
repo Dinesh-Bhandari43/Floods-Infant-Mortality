@@ -98,6 +98,17 @@ flood_frequency <- (flood_jun_2002_cropped$flooded +
                       flood_aug_2017_cropped$flooded
                     )
 
+# Years flooded PNAS revision #2
+flood_year<- stack(flood_jun_2002_cropped$flooded ,
+                     flood_jun_2003_cropped$flooded ,
+                     flood_jul_2004_cropped$flooded ,
+                     flood_jul_2007_cropped$flooded ,
+                     flood_jul_2010_cropped$flooded ,
+                     flood_oct_2010_cropped$flooded ,
+                     # flood_jul_2016_cropped$flooded , # Missing data near confluence of bay
+                     flood_aug_2017_cropped$flooded
+                   )
+
 
 #-------------------------------------------------------------------------------
 
@@ -107,6 +118,9 @@ saveRDS(flood_area_percent,
 
 saveRDS(flood_frequency,
         file = here("data/final", "flood_frequency"))
+
+saveRDS(flood_year,
+        file = here("data/final", "flood_year"))
 
 #-------------------------------------------------------------------------------
 
