@@ -28,6 +28,8 @@ monthly_time_series_5_frequency <- readRDS(file = here("data/final", "monthly_ti
 monthly_time_series_6_frequency <- readRDS(file = here("data/final", "monthly_time_series_6_frequency"))
 monthly_time_series_7_frequency <- readRDS(file = here("data/final", "monthly_time_series_7_frequency"))
 
+monthly_time_series_flood_year <- readRDS(file = here("data/final", "monthly_time_series_flood_year"))
+
 monthly_time_series_list <- list(monthly_time_series_0_quartile,
                                  monthly_time_series_1_quartile,
                                  monthly_time_series_2_quartile,
@@ -38,7 +40,8 @@ monthly_time_series_list <- list(monthly_time_series_0_quartile,
                                  monthly_time_series_4_frequency,
                                  monthly_time_series_5_frequency,
                                  monthly_time_series_6_frequency,
-                                 monthly_time_series_7_frequency)
+                                 monthly_time_series_7_frequency,
+                                 monthly_time_series_flood_year)
 
 ## Aggregate per Season
 monthly_time_series_list_2 <-
@@ -93,9 +96,11 @@ RR_flooded_vs_non_flooded_tb <- rbind(RR_flooded_vs_non_flooded_tb_quartile %>%
                                       RR_flooded_vs_non_flooded_tb_quartile %>%
                                         mutate(Exposure = "6 frequency"),
                                       RR_flooded_vs_non_flooded_tb_quartile %>%
-                                        mutate(Exposure = "7 frequency"))
+                                        mutate(Exposure = "7 frequency"),
+                                      RR_flooded_vs_non_flooded_tb_quartile %>%
+                                        mutate(Exposure = "Flood year"))
 
-for (j in 1:11){
+for (j in 1:12){
   for (i in 1:60){
     data <- monthly_time_series_list_2[[j]]
     RR_flooded_vs_non_flooded_tb$RR_log_empiric[i + (j-1)*60] <- log((data$Number_Of_Dead_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]/data$Number_Of_Birth[which(data$Flooded == TRUE & data$Grouping_Season == RR_flooded_vs_non_flooded_tb$Grouping_Season[i])]) /

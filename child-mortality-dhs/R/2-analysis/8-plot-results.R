@@ -293,3 +293,54 @@ pdf(here("child-mortality-dhs/output/figures", "forest-plot-RD-loo-cv.pdf"))
 data_plot_RD
 dev.off()
 
+
+### Plot for PNAS suggested revision 2
+# Load data
+meta.analyses.results_se <- readRDS(file = here("data/final", "meta.analyses.results_se"))
+
+# Prepare data for plotting
+data <- (meta.analyses.results_se
+         %>% mutate(Season = factor(Season, levels = c("Overall", "Rainy", "Dry")),
+                    Decade = factor(Decade, levels = c("2003-2017", "2003-2007", "2008-2012", "2013-2017"))) 
+         %>% mutate(facet = (!Decade == "2003-2017"),
+                    Exposure = factor(Exposure)
+                    )
+         )
+
+## Risk difference
+data_plot_RD <- (data %>%
+                   filter(Estimate == "RD_empiric") %>%
+                   ggplot(aes(x = Decade, y = 1000*TE, ymin = 1000*TE.lower, ymax = 1000*TE.upper, col = Season, shape = Exposure)) +
+                   geom_pointrange(cex = 0.5,
+                                   position = position_dodge(0.5)) +
+                   geom_hline(aes(yintercept = 0), lty = "dashed") +
+                   scale_y_continuous(breaks = seq(from = -10, to = 40, by = 5)) + 
+                   facet_grid( ~ facet, scales = "free_x", space = "free_x") +
+                   scale_color_manual(labels = c("Overall", "Rainy", "Dry"),
+                                      values = c("black", "#56B4E9", "#E69F00")) +
+                   scale_shape_discrete(name = "Flood definition",
+                                        breaks = c("0 quartile", "Flood year"),
+                                        labels = c("Time invariant", "Last flood event")) +
+                   ylab("Risk difference\n(per 1000 births)") +
+                   theme(legend.position = "right",
+                         panel.grid.major.x = element_blank(),
+                         strip.background = element_blank(),
+                         strip.text.x = element_blank(),
+                         axis.ticks = element_blank(),
+                         axis.title = element_text(size = 16),
+                         axis.text = element_text(size = 12),
+                         legend.title = element_text(size = 12),
+                         legend.text = element_text(size = 10),
+                         axis.title.x = element_blank())
+)
+
+
+data_plot_RD
+
+### Save
+pdf(here("child-mortality-dhs/output/figures", "forest-plot-RD-time-variant-flood-def.pdf"))
+data_plot_RD
+dev.off()
+
+
+
