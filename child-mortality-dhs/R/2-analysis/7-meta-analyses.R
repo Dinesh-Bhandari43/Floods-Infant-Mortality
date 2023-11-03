@@ -30,7 +30,7 @@ data <- (RD_flooded_vs_non_flooded_tb_empiric %>%
                   Decade = replace(Decade, Decade == 1, "1998-2007"),
                   Decade = replace(Decade, Decade == 2, "2008-2017"),
                   Subgroup = paste(Season, Decade),
-                  Year = rep(rep(1988:2017, each = 2), 11))
+                  Year = rep(rep(1988:2017, each = 2), 12))
          )
 
 #-------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ forest.meta(x = meta.analysis,
             xlab = paste("Infant mortality risk difference (per 1000 births) for living in\nflood-prone areas vs non-flood prone areas (empiric)"),
             fontsize = 6,
             fs.axis = 4,
-            fs.xlab = 8,
+            fs.xlab = 5,
             spacing = 0.35,
             hetstat = T)
 dev.off()
@@ -154,7 +154,7 @@ forest.meta(x = meta.analysis.d,
             xlab = paste("Infant mortality risk difference (per 1000 births) for living in\nflood-prone areas vs non-flood prone areas (empiric)"),
             fontsize = 6,
             fs.axis = 4,
-            fs.xlab = 8,
+            fs.xlab = 5,
             spacing = 0.35,
             hetstat = T)
 dev.off()
@@ -184,8 +184,8 @@ forest.meta(x = meta.analysis.s,
             xlab = paste("Infant mortality risk difference (per 1000 births) for living in\nflood-prone areas vs non-flood prone areas (empiric)"),
             fontsize = 6,
             fs.axis = 4,
-            fs.xlab = 8,
-            spacing = 0.35,
+            fs.xlab = 5,
+            spacing = 0.4,
             hetstat = T)
 dev.off()
 
