@@ -42,3 +42,14 @@ library(rgeos)
 library(table1)
 library(Hmisc)
 library(spatstat)
+library(lwgeom)
+library(gridExtra)
+library(cowplot)
+library(ggcorrplot)
+
+
+# safe color blind palette
+# http://jfly.iam.u-tokyo.ac.jp/color/
+# http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+# Reference: Bang Wong, Nature Methods 2011: https://www.nature.com/articles/nmeth.1618
+cbpal <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
