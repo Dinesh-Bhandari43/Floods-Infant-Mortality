@@ -39,7 +39,7 @@ monthly_time_series_0_quartile <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -50,7 +50,7 @@ monthly_time_series_1_quartile <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -61,7 +61,7 @@ monthly_time_series_2_quartile <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -72,7 +72,7 @@ monthly_time_series_3_quartile <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -83,7 +83,7 @@ monthly_time_series_control <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -94,7 +94,7 @@ monthly_time_series_1_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -105,7 +105,7 @@ monthly_time_series_2_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -116,7 +116,7 @@ monthly_time_series_3_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -127,7 +127,7 @@ monthly_time_series_4_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -138,7 +138,7 @@ monthly_time_series_5_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -149,7 +149,7 @@ monthly_time_series_6_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -160,7 +160,7 @@ monthly_time_series_7_frequency <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
@@ -172,7 +172,7 @@ monthly_time_series_flood_year <-
      mutate(index = 1) %>%
      group_by(Birth_Date_Month_CMC, Flooded) %>%
      summarise(Number_Of_Birth = sum(index*Women_Sampling_Weight),
-               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 1)*Women_Sampling_Weight,
+               Number_Of_Dead_Birth = sum((Age_At_Death_Months <= 11)*Women_Sampling_Weight,
                                           na.rm = T)) %>%
      mutate(Infant_Mortality = Number_Of_Dead_Birth/Number_Of_Birth) %>%
      ungroup()
