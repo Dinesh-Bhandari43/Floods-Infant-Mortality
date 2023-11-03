@@ -49,38 +49,35 @@ monthly_time_series_grouping_season_processed <- (monthly_time_series_grouping_s
 
 ### Plot
 monthly_time_series_plot <- (ggplot()
-                             + geom_rect(aes(ymin = 0, ymax = 100,
+                             + geom_rect(aes(ymin = 0, ymax = 150,
                                              xmin = seq(1061-0.5, 1409-0.5, by = 12), xmax = seq(1066+0.5, 1414+0.5, by = 12)),
                                          fill = "darkgrey", alpha = 0.5)
-                             + geom_rect(aes(ymin = 0, ymax = 100,
+                             + geom_rect(aes(ymin = 0, ymax = 150,
                                              xmin = seq(1055-0.5, 1403-0.5, by = 12), xmax = seq(1060+0.5, 1408+0.5, by = 12)),
                                          fill = "grey", alpha = 0.5)
-
-                             + geom_segment(aes(x = 1054, xend = 1414, y = 25, yend = 25), colour = "white", linetype = "dashed")
-                             + geom_segment(aes(x = 1054, xend = 1414, y = 50, yend = 50), colour = "white", linetype = "dashed")
-                             + geom_segment(aes(x = 1054, xend = 1414, y = 75, yend = 75), colour = "white", linetype = "dashed")
+                             + geom_segment(aes(x = 1054, xend = 1414, y = seq(25,125,by=25), yend = seq(25,125,by=25)), colour = "white", linetype = "dashed")
                              + geom_point(data = monthly_time_series_grouping_season_processed %>% filter(Flooded != FALSE),
                                           aes(x = Birth_Date_Month_CMC,
                                               y = 1000*Infant_Mortality,
-                                              group = Flooded, col = Flooded))
+                                              group = Flooded, color = Flooded))
                              # + geom_smooth(method = "lm", se = F)
                              # + geom_line()
                              + geom_smooth(data = monthly_time_series_grouping_season_processed %>% filter(Flooded != FALSE),
                                            aes(x = Birth_Date_Month_CMC,
                                                y = 1000*Infant_Mortality,
                                                group = Flooded, col = Flooded),
-                                           se = F, span = 0.1, size = 2)
+                                           se = F, span = 0.1, size = 1)
                              # + scale_x_continuous(breaks = seq(1057, 1411, by = 6), labels = paste(c("Dry", "Rainy"), rep(1988:2017, each = 2)))
                              + scale_x_continuous(breaks = seq(1057, 1411, by = 6), labels = c(rbind(rep("Dry", 30),
                                                                                                      paste("Rainy", 1988:2017))))
+                             + scale_y_continuous(breaks=seq(0,150,by=25))
                              # + xlim(c(1135, 1291))
-                             + ylim(c(0,100)) 
+                             # + ylim(c(0,125)) 
                              + scale_color_manual(labels = c("Non-flood prone area","Flood prone area"),
                                                   values = c("#FFFFCC", "#41B6C4"))
                              # + geom_vline(xintercept = 1291) # July 2007
                              # + geom_vline(xintercept = 1255) # July 2004
-                             + xlab("Seasons 1988-2017")
-                             + ylab("Infant mortality rate (per 1000 births)")
+                             + labs(x = "Seasons 1988 - 2017", y = "Infant mortality rate (per 1,000 births)", tag = "d")
                              + theme(legend.title = element_blank(),
                                      legend.text = element_text(size = 16),
                                      panel.background = element_blank(),
@@ -93,14 +90,16 @@ monthly_time_series_plot <- (ggplot()
                                                                 size = 7),
                                      axis.title.x = element_text(margin = ggplot2::margin(t = 10),
                                                                  size = 20),
-                                     axis.text.y = element_text(vjust = 0,
-                                                                hjust = 0,
+                                     axis.text.y = element_text(vjust = 0.5,
+                                                                hjust = 1,
                                                                 margin = ggplot2::margin(r = -20),
                                                                 size = 10),
                                      axis.title.y = element_text(margin = ggplot2::margin(r = 10),
                                                                  size = 18),
                                      axis.ticks = element_blank(),
-                                     legend.margin = ggplot2::margin(b = -20))
+                                     legend.margin = ggplot2::margin(b = -20),
+                                     plot.tag = element_text(face = "bold", size = 18)
+                                     )
 )
 
 
@@ -108,10 +107,10 @@ monthly_time_series_plot <- (ggplot()
 monthly_time_series_plot
 
 ### Save
-pdf(here("child-mortality-dhs/output/figures", "infant-mortality-time-series.pdf"))
-monthly_time_series_plot
-dev.off()
+ggsave(here("child-mortality-dhs/output/figures", "infant-mortality-time-series.pdf"), 
+       monthly_time_series_plot,
+       device = "pdf",
+       # dpi = 1200,
+       width = 210, height = 210, units = "mm"
+       )
 
-jpeg(here("child-mortality-dhs/output/figures", "infant-mortality-time-series.jpeg"), quality = 100)
-monthly_time_series_plot
-dev.off()
