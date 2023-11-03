@@ -9,7 +9,9 @@ This repository includes R code to run all of the analysis for the paper:
 
 Rerolle, F., Arnold, B. F., Benmarhnia, T.
 
-Should you have any questions about the files in this repository, please contact Francois Rerolle at UCSF (francois.rerolle@ucsf.edu).
+_in press_ at PNAS.
+
+Should you have any questions about the files in this repository, please contact Francois Rerolle at UCSF (francois.rerolle@ucsf.edu) or see the corresponding author contact information in the manuscript.
 
 ## Additional Resources
 
@@ -19,15 +21,15 @@ All data used in the analysis is publicly available but access must be granted b
 
 ### System Requirements
 
-All analyses were run using R software version 4.1.1 on Mac OSX Big Sur using the RStudio IDE (https://www.rstudio.com).
+All analyses were run using R software version 4.3.0 on MacOS Monterey using the RStudio IDE (https://www.rstudio.com).
 
 > sessionInfo()
 
-R version 4.1.3 (2022-03-10)
+R version 4.3.0 (2023-04-21)
 
-Platform: x86_64-apple-darwin17.0 (64-bit)
+Platform: aarch64-apple-darwin20 (64-bit)
 
-Running under: macOS Monterey 12.4
+Running under: macOS Monterey 12.6
 
 ### Installation Guide
 
@@ -49,12 +51,14 @@ To reproduce all analyses in the paper, we recommend that you:
 
 3. In the `data/untouched` directory copy and paste repository from OSF: https://osf.io/vrfmz/
 
-4. In the `data/untouched/dhs` directory paste downloaded DHS data. You should have 6 subdirectories: `BD_1999-00_DHS_03072022_1129_172978`, `BD_2004_DHS_02032022_1033_172978`, `BD_2007_DHS_02032022_1033_172978`, `BD_2011_DHS_02032022_1032_172978`, `BD_2014_DHS_02082022_855_172978` and `BD_2017-18_DHS_02082022_855_172978`
+4. In the `data/untouched/dhs` directory paste downloaded DHS data. You should have 6 subdirectories corresponding to each DHS survey (note these subdirectories include a download date, `05302023`, which was used in this study: `BD_1999-00_DHS_05302023_1740_172978`, `BD_2004_DHS_05302023_1740_172978`, `BD_2007_DHS_05302023_1740_172978`, `BD_2011_DHS_05302023_1739_172978`, `BD_2014_DHS_05302023_1739_172978` and `BD_2017-18_DHS_05302023_1738_172978`
 
 5. Create `child-mortality-dhs\output` directory with 2 subdirectories: `figures` and `matching`
 
-6. All of the analysis scripts should run smoothly. 
+6. All of the data management and analysis scripts should run smoothly. 
 
 Running the all analyses on the above Mac laptop configuration required ~1h. 
 
 Note that the only script that takes very long is `6b-infant-mortality-model-individiual-level.R` which pertains to the sensitivity analysis. 
+
+We identified two additional wrinkles in our internal replication effort that users should keep in mind. In the data management workflow the script `10-extract-precipitation-data.R` can be very slow to download the CHIRPS data. Additionally, the script `11-leave-one-out-cross-validation.R` requires manual commenting and un-commenting blocks of code to repeat the LOO analysis, leaving out each event in turn. Unfortunately, our team simply didn't have time to code this in a more elegant way, but there are clear instructions in the script for doing that piece of the analysis. 
