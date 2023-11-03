@@ -221,6 +221,15 @@ birth_records <- (birth_records_4 %>%
                            )
                   )
 
+
+#-------------------------
+# print the overall number
+# of births included in the
+# DHS time series
+#-------------------------
+dim(birth_records)
+
+
 #-------------------------------------------------------------------------------
 
 # Save dataset

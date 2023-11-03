@@ -119,8 +119,11 @@ saveRDS(flood_area_percent,
 saveRDS(flood_frequency,
         file = here("data/final", "flood_frequency"))
 
-saveRDS(flood_year,
-        file = here("data/final", "flood_year"))
+# saveRDS(flood_year,
+#         file = here("data/final", "flood_year"))
+# save the flood_year stack as a raster stack rather than .rds file
+# there was some difficulty in reading the file back in without doing this
+raster::writeRaster(flood_year,filename=here("data/final","flood_year.grd"))
 
 #-------------------------------------------------------------------------------
 

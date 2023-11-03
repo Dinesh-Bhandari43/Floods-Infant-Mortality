@@ -18,7 +18,8 @@ source(here("child-mortality-dhs/R", "0-config.R"))
 # Flood area
 flood_area_percent <- readRDS(here("data/final", "flood_area_percent"))
 flood_frequency <- readRDS(here("data/final", "flood_frequency"))
-flood_year <- readRDS(here("data/final", "flood_year"))
+# flood_year <- readRDS(here("data/final", "flood_year"))
+flood_year <- raster::stack(here("data/final", "flood_year.grd"))
 
 # DHS birth records
 BDBR_2017 <- read_dta(here("data/untouched/dhs",
@@ -181,7 +182,8 @@ BDBR_GPS$Flood_Year <- c(raster::extract(x = flood_year$flooded.7,
                              raster::extract(x = flood_year$flooded.3,
                                              y = BDBR_2004_GPS),
                              raster::extract(x = flood_year$flooded.1,
-                                             y = BDBR_1999_GPS))
+                                             y = BDBR_1999_GPS)
+                         )
 
 # Merge
 BDBR_Flood <- (BDBR %>% left_join(BDBR_GPS))
