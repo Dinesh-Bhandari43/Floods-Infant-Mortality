@@ -27,22 +27,22 @@ flood_area_percent_mask_2 <- 100*flood_area_percent_mask
 
 # Cluster' s GPS
 BDBR_2017_GPS <- st_read(here("data/untouched/dhs",
-                              "BD_2017-18_DHS_02082022_855_172978/BDGE7SFL",
+                              "BD_2017-18_DHS_05302023_1738_172978/BDGE7SFL",
                               "BDGE7SFL.shp"))
 BDBR_2014_GPS <- st_read(here("data/untouched/dhs",
-                              "BD_2014_DHS_02082022_855_172978/BDGE71FL",
+                              "BD_2014_DHS_05302023_1739_172978/BDGE71FL",
                               "BDGE71FL.shp"))
 BDBR_2011_GPS <- st_read(here("data/untouched/dhs",
-                              "BD_2011_DHS_02032022_1032_172978/BDGE61FL",
+                              "BD_2011_DHS_05302023_1739_172978/BDGE61FL",
                               "BDGE61FL.shp"))
 BDBR_2007_GPS <- st_read(here("data/untouched/dhs",
-                              "BD_2007_DHS_02032022_1033_172978/BDGE52FL",
+                              "BD_2007_DHS_05302023_1740_172978/BDGE52FL",
                               "BDGE52FL.shp"))
 BDBR_2004_GPS <- st_read(here("data/untouched/dhs",
-                              "BD_2004_DHS_02032022_1033_172978/BDGE4JFL",
+                              "BD_2004_DHS_05302023_1740_172978/BDGE4JFL",
                               "BDGE4JFL.shp"))
 BDBR_2000_GPS <- st_read(here("data/untouched/dhs",
-                              "BD_1999-00_DHS_03072022_1129_172978/BDGE42FL",
+                              "BD_1999-00_DHS_05302023_1740_172978/BDGE42FL",
                               "BDGE42FL.shp"))
 
 BDBR_GPS <- rbind(BDBR_2017_GPS,
@@ -65,9 +65,10 @@ colorlength <- 100
 flood_area_percentPlot <- rasterVis::levelplot(flood_area_percent_mask_2, 
                                                        margin = FALSE,                       
                                                        colorkey = NULL,
-                                                       main = NULL,
+                                                       main = "a",
                                                        par.settings = list(
-                                                         axis.line = list(col = 'transparent') 
+                                                         axis.line = list(col = 'transparent'),
+                                                         par.main.text = list(font = 2, just = "left", cex = 1.5, x = grid::unit(1, "mm"))
                                                        ),
                                                        xlab = NULL,
                                                        ylab = NULL,
@@ -90,9 +91,10 @@ dev.off()
 dhs_cluster_plot <- rasterVis::levelplot(flood_area_percent_mask, 
                                          margin = FALSE,                       
                                          colorkey = FALSE,
-                                         main = NULL,
+                                         main = "c",
                                          par.settings = list(
-                                           axis.line = list(col = 'transparent') 
+                                           axis.line = list(col = 'transparent'),
+                                           par.main.text = list(font = 2, just = "left", cex = 1.5, x = grid::unit(1, "mm"))
                                          ),
                                          xlab = NULL,
                                          ylab = NULL,
