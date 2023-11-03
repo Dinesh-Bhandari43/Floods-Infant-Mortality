@@ -78,7 +78,7 @@ percent_area_flooded_distribution <- ggplot() +
   scale_x_continuous(breaks = seq(0, 80, by = 10)) +
   scale_color_gradient2(low = "#FFFFCC", mid="#41B6C4", high = "#0C2C84",
                         midpoint=40) +
-  xlab("Percentage of days flooded (%)") +
+  labs(x = "Percentage of days flooded (%)", tag = "b") +
   coord_cartesian(clip = "off") +
   theme(legend.position = "none",
         panel.background = element_blank(),
@@ -86,10 +86,18 @@ percent_area_flooded_distribution <- ggplot() +
         axis.text.y = element_blank(),
         axis.text.x = element_text(size = 16, margin = ggplot2::margin(t = -20)),
         axis.title.x = element_text(size = 20),
-        axis.title.y = element_text(size = 16, margin = ggplot2::margin(r = -20)))
+        axis.title.y = element_text(size = 16, margin = ggplot2::margin(r = -20)),
+        plot.tag = element_text(face = "bold", size = 18)
+        )
 
 
 ### Save
-pdf(here("child-mortality-dhs/output/figures", "percent-area-flooded-distribution.pdf"))
-percent_area_flooded_distribution
-dev.off()
+# pdf(here("child-mortality-dhs/output/figures", "percent-area-flooded-distribution.pdf"))
+# percent_area_flooded_distribution
+# dev.off()
+ggsave(here("child-mortality-dhs/output/figures", "percent-area-flooded-distribution.pdf"), 
+       percent_area_flooded_distribution,
+       device = "pdf",
+       # dpi = 1200,
+       width = 180, height = 180, units = "mm"
+)
