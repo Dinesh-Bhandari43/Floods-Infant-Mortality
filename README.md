@@ -1,11 +1,11 @@
 # floods-bangladesh
-Research projects assessing impacts of flooding on health in Bangladesh
+Excess risk in infant mortality among populations living in flood prone areas in Bangladesh
 
 ## Description
 
 This repository includes R code to run all of the analysis for the paper:
 
-"Excess risk in infant mortality among populations living in flood prone areas in Bangladesh: A cluster-matched cohort study over three decades, 1988-2017"
+_Excess risk in infant mortality among populations living in flood prone areas in Bangladesh: A cluster-matched cohort study over three decades, 1988-2017_
 
 Rerolle, F., Arnold, B. F., Benmarhnia, T.
 
@@ -57,8 +57,8 @@ To reproduce all analyses in the paper, we recommend that you:
 
 6. All of the data management and analysis scripts should run smoothly. 
 
-Running the all analyses on the above Mac laptop configuration required ~1h. 
+Running the all analyses on the above Mac configuration required ~1h. 
 
-Note that the only script that takes very long is `6b-infant-mortality-model-individiual-level.R` which pertains to the sensitivity analysis. 
+Note that the only script that takes very long is `6b-infant-mortality-model-individiual-level.R` which pertains to the sensitivity analysis estimating effects using conditional logistic regression. 
 
 We identified two additional wrinkles in our internal replication effort that users should keep in mind. In the data management workflow the script `10-extract-precipitation-data.R` can be very slow to download the CHIRPS data. Additionally, the script `11-leave-one-out-cross-validation.R` requires manual commenting and un-commenting blocks of code to repeat the LOO analysis, leaving out each event in turn. Unfortunately, our team simply didn't have time to code this in a more elegant way, but there are clear instructions in the script for doing that piece of the analysis. 
