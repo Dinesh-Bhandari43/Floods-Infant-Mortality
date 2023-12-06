@@ -5,11 +5,7 @@ Excess risk in infant mortality among populations living in flood prone areas in
 
 This repository includes R code to run all of the analysis for the paper:
 
-_Excess risk in infant mortality among populations living in flood prone areas in Bangladesh: A cluster-matched cohort study over three decades, 1988-2017_
-
-Rerolle, F., Arnold, B. F., Benmarhnia, T.
-
-_in press_ at PNAS.
+Rerolle, F., Arnold, B. F., Benmarhnia, T. Excess risk in infant mortality among populations living in flood prone areas in Bangladesh: A cluster-matched cohort study over three decades, 1988 to 2017. _PNAS_ **2023** 120(50)e2218789120. https://doi.org/10.1073/pnas.2218789120 
 
 Should you have any questions about the files in this repository, please contact Francois Rerolle at UCSF (francois.rerolle@ucsf.edu) or see the corresponding author contact information in the manuscript.
 
